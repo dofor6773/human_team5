@@ -12,20 +12,20 @@
     <div class="form-container">
         <form id="productForm" method="POST" action="product_management.jsp">
             <label>제품코드</label>
-            <input type="text" id="productCode" name="productCode" ><br>
+            <input type="text" id="productCode" style="background-color:  #E2E2E2;" name="productCode" readonly><br>
             <label>등록일</label>
-            <input type="text" id="productDate" name="productDate" ><br>
-            <label>제품명</label>
+            <input type="text" id="productDate" style="background-color:  #E2E2E2;" name="productDate" readonly><br>
+            <label>제품명*</label>
             <input type="text" id="productName" name="productName" required><br>
-            <label>현재 카테고리</label>
+            <label>카테고리</label>
             <select id="productType" name="productType" required>
                 <option value="OTC" selected>일반의약품</option>
-                <option value="Rx">전무의약품</option>
+                <option value="Rx">전문의약품</option>
                 <option value="NonPharmaceutical">의약외품</option>
             </select><br>
-            <label>포장단위</label>
+            <label>포장단위*</label>
             <input type="text" id="packaging" name="packaging" required><br>
-            <label>효능군</label>
+            <label>효능군*</label>
             <input type="text" id="effect" name="effect" required><br>
             <label>생산구분</label>
             <select id="productionType" name="productionType" required>
@@ -58,11 +58,7 @@
                 <th>작업</th>
             </tr>
         </thead>
-        <tbody id="productTableBody">
-            <!-- 여기에 동적으로 추가된 데이터가 들어갈 예정 -->
         </tbody>
     </table>
-
-    <script src="script.js"></script>
 </body>
 </html>
