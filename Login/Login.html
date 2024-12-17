@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>로그인</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="login-container">
+    <img src="img/humunlogo.png" alt="Logo" class="logo">
+    <h1>휴먼 제약</h1>
+    <form id="loginForm" action="/main" method="post">
+      <div class="input-group">
+        <input type="text" id="username" placeholder="아이디를 입력하시오" aria-label="아이디 입력란" required>
+      </div>
+      <div class="input-group">
+        <input type="password" id="password" placeholder="비밀번호를 입력하시오" aria-label="비밀번호 입력란" required>
+        <button type="button" id="togglePassword" aria-label="비밀번호 표시">
+          <img src="img/eye-slash-icon.png" alt="비밀번호 표시" id="toggle-icon">
+        </button>
+      </div>
+      <div class="remember-me">
+        <input type="checkbox" id="rememberMe">
+        <label for="rememberMe">아이디 저장</label>
+      </div>
+      <button type="submit" class="login-btn" id="loginButton">로그인</button>
+      <div id="lockMessage" style="color: red; display: none; margin-top: 10px;">
+        계정이 잠겼습니다. 관리자에게 문의하세요.
+      </div>
+      <div class="link-container">
+        <a href="/forgot-password.html" class="forgot-password">비밀번호 찾기</a>
+      </div>
+    </form>
+  </div>
+  <script src="js/script.js"></script>
+</body>
+</html>
