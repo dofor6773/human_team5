@@ -13,7 +13,6 @@ temp/
 work/
 logs/
 lib/
-Servers/
 db.properties
 *.xml~
 *.conf
