@@ -15,7 +15,7 @@
 	ResultSet rs = null;
 	
 	// 제품 정보 가져오기 SQL 쿼리
-	String selectSql = "SELECT PRODUCT_CODE, PRODUCT_NAME, CURRENT_CATEGORY, PACKAGING_UNIT, EFFICACY_GROUP, PRODUCTION_TYPE, REGISTERED_BY FROM product ORDER BY REGISTERED_DATE DESC";
+	String selectSql = "SELECT PRODUCT_CODE, PRODUCT_NAME, CURRENT_CATEGORY, PACKAGING_UNIT, EFFICACY_GROUP, PRODUCTION_TYPE, REGISTERED_BY, REGISTERED_DATE FROM product ORDER BY REGISTERED_DATE DESC";
 	
 	try {
 	    pstmt = conn.prepareStatement(selectSql);
@@ -58,6 +58,7 @@
             <button type="submit">등록</button>
             <button type="button" id="update-button" style="display: none;" onclick="updateProduct()">수정완료</button>
             <button type="button" id="cancel-button" style="display: none;" onclick="cancelEdit()">취소</button>
+            <button type="button" id="delete-button" style="display: none;" >삭제</button>
         </form>
     </div>
 
@@ -71,21 +72,22 @@
     </div>
 
     <!-- 테이블 -->
-    <table>
+    <div class="table-container">
+	<table id="receivingTable" onclick="selectRow(event)">
         <thead>
             <tr>
-                <th>제품코드</th>
-                <th>제품명</th>
-                <th>카테고리</th>
-                <th>포장단위</th>
-                <th>효능군</th>
-                <th>생산구분</th>
-                <th>작업</th>
+                <th>제품코드 <button class="sort-button" data-column="0" onclick="sortTable(0)">▼</button></th>
+                <th>제품명<button class="sort-button" data-column="1" onclick="sortTable(1)">▼</button></th>
+                <th>카테고리<button class="sort-button" data-column="2" onclick="sortTable(2)">▼</button></th>
+                <th>포장단위<button class="sort-button" data-column="3" onclick="sortTable(3)">▼</button></th>
+                <th>효능군<button class="sort-button" data-column="4" onclick="sortTable(4)">▼</button></th>
+                <th>생산구분<button class="sort-button" data-column="5" onclick="sortTable(5)">▼</button></th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="sroll">
         <% 
 			// 조회한 데이터를 테이블에 출력
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			while (rs.next()) {
 			String productCode = rs.getString("PRODUCT_CODE");
 			String productName = rs.getString("PRODUCT_NAME");
@@ -93,6 +95,8 @@
 			String packagingUnit = rs.getString("PACKAGING_UNIT");
 			String efficacyGroup = rs.getString("EFFICACY_GROUP");
 			String productionType = rs.getString("PRODUCTION_TYPE");
+			Timestamp registeredDateTimestamp = rs.getTimestamp("REGISTERED_DATE");
+			String registeredDate = dateFormat.format(registeredDateTimestamp);
                 %>
                 <tr>
                     <td><%= productCode %></td>
@@ -101,22 +105,12 @@
                     <td><%= packagingUnit %></td>
                     <td><%= efficacyGroup %></td>
                     <td><%= productionType %></td>
-                    <td>
-                    <button class="update-button" 
-                    data-id="<%= productCode %>"
-                    data-name="<%= productName %>"
-                    data-category="<%= currentCategory %>"
-                    data-packaging="<%= packagingUnit %>"
-                    data-effect="<%= efficacyGroup %>"
-                    data-production="<%= productionType %>">수정</button>
-                    <button class="delete-button" data-id="<%= productCode %>">삭제</button>
-                    </td>
                 </tr>
                 <% 
                     }
                 %>
             </tbody>
-        <tbody>
+        
         <%
 	    } catch (Exception e) {
 	        e.printStackTrace();
@@ -128,32 +122,8 @@
         %>
         </tbody>
     </table>
+    </div>
     <script type="text/javascript">
-    	//수정 누르면 폼에 채워짐
-    	document.querySelectorAll('.update-button').forEach(button => {
-            button.addEventListener('click', function(event) {
-                const productCode = event.target.getAttribute('data-id');
-                const productName = event.target.getAttribute('data-name');
-                const category = event.target.getAttribute('data-category');
-                const packaging = event.target.getAttribute('data-packaging');
-                const effect = event.target.getAttribute('data-effect');
-                const production = event.target.getAttribute('data-production');
-
-                document.getElementById('productCode').value = productCode;
-                document.getElementById('productName').value = productName;
-                document.getElementById('productType').value = category;
-                document.getElementById('packaging').value = packaging;
-                document.getElementById('effect').value = effect;
-                document.getElementById('productionType').value = production;
-                
-                //수정버튼 눌렀을때 수정 완료 버튼 나타나게
-                document.getElementById('update-button').style.display = 'inline-block';
-                //수정 누르면 수정완료 옆에 취소 버튼 생김
-                document.getElementById('cancel-button').style.display = 'inline-block';
-                //수정 눌렀을 때 등록 버튼 비활성화
-                document.querySelector('button[type="submit"]').disabled = true;
-            });
-        });
     	//수정완료 누르면 DB에 저장
     	function updateProduct(){
     		const form = document.getElementById('productForm');
@@ -168,20 +138,124 @@
     	    // 수정완료, 취소 버튼 숨기기
     	    document.getElementById('update-button').style.display = 'none';
     	    document.getElementById('cancel-button').style.display = 'none';
+    	    document.getElementById('delete-button').style.display = 'none';
 
     	    // 등록 버튼 활성화
     	    document.querySelector('button[type="submit"]').disabled = false;
-    	}
+    	};
     	//삭제 버튼
-	    document.querySelectorAll('.delete-button').forEach(button => {
-	        button.addEventListener('click', function(event) {
-	            const productCode = event.target.getAttribute('data-id');
-	            if (confirm('정말 삭제하시겠습니까?')) {
-	                // 서버로 삭제 요청 보내기
-	                location.href = './product_management_delete.jsp?product_code=' + productCode;
+	    document.getElementById('delete-button').onclick = function() {
+		    const productCode = document.getElementById('productCode').value;
+		    if (confirm('정말 삭제하시겠습니까?')) {
+		        // 서버로 삭제 요청 보내기
+		        location.href = './product_management_delete.jsp?product_code=' + productCode;
+		    }
+		};
+
+        // 테이블 행 클릭 시 선택된 값을 폼에 채우는 함수
+        function selectRow(event) {
+            // 클릭한 행을 선택
+            let row = event.target.closest('tr');
+            if (!row) return;
+            
+            let registeredDate = row.getAttribute("data-registered-date");
+	       	
+	        let cells = row.getElementsByTagName('td'); 
+            // 각 열의 값을 폼 필드에 설정
+            let productCode = cells[0].textContent.trim();
+	        let productName = cells[1].textContent.trim();
+	        let category = cells[2].textContent.trim();
+	        let packaging = cells[3].textContent.trim();
+	        let effect = cells[4].textContent.trim();
+	        let production = cells[5].textContent.trim();  
+	        
+            document.getElementById('productCode').value = productCode;
+            document.getElementById('productName').value = productName;
+            document.getElementById('productType').value = category;
+            document.getElementById('packaging').value = packaging;
+            document.getElementById('effect').value = effect;
+            document.getElementById('productionType').value = production;
+            document.getElementById('productDate').value = registeredDate;
+            
+            document.getElementById('update-button').style.display = 'inline-block';
+            //수정 누르면 수정완료 옆에 취소 버튼 생김
+            document.getElementById('cancel-button').style.display = 'inline-block';
+            //취소 옆에 삭제 버튼
+            document.getElementById('delete-button').style.display = 'inline-block';
+            //수정 눌렀을 때 등록 버튼 비활성화
+            document.querySelector('button[type="submit"]').disabled = true;
+        }
+	    // 실시간 검색 기능
+	    function searchProducts() {
+	        const searchInput = document.getElementById('searchInput').value.toLowerCase();
+	        const searchCriteria = document.getElementById('searchCriteria').value;
+	        const table = document.querySelector('table tbody');
+	        const rows = table.querySelectorAll('tr');
+
+	        rows.forEach(row => {
+	            const productCode = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
+	            const productName = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+
+	            // 검색에 맞는게 없으면 가림
+	            if ((searchCriteria === 'name' && productName.includes(searchInput)) ||
+	                (searchCriteria === 'code' && productCode.includes(searchInput))) {
+	                row.style.display = '';
+	            } else {
+	                row.style.display = 'none';
 	            }
 	        });
-	    });
+	    }
+	    // 제품명 -> 제품명으로 검색, 제품코드-> 제품코드로 검색 나옴
+	    function updateSearchPlaceholder() {
+	        const searchCriteria = document.getElementById('searchCriteria').value;
+	        const searchInput = document.getElementById('searchInput');
+	        
+	        if (searchCriteria === 'name') {
+	            searchInput.placeholder = '제품명으로 검색';
+	        } else {
+	            searchInput.placeholder = '제품코드로 검색';
+	        }
+	    }
+	    //정렬 버튼
+	    let sortOrder = [true, true, true, true, true, true]; // 각 열의 정렬 상태 (true: 오름차순, false: 내림차순)
+
+		function sortTable(columnIndex) {
+		    const table = document.querySelector('table tbody');
+		    const rows = Array.from(table.querySelectorAll('tr'));
+		    const isAscending = sortOrder[columnIndex];
+		
+		    // 정렬 함수
+		    rows.sort((rowA, rowB) => {
+		        const cellA = rowA.querySelectorAll('td')[columnIndex].textContent.trim().toLowerCase();
+		        const cellB = rowB.querySelectorAll('td')[columnIndex].textContent.trim().toLowerCase();
+		
+		        if (isAscending) {
+		            // 오름차순 정렬
+		            return cellA > cellB ? 1 : (cellA < cellB ? -1 : 0);
+		        } else {
+		            // 내림차순 정렬
+		            return cellA < cellB ? 1 : (cellA > cellB ? -1 : 0);
+		        }
+		    });
+		
+		    // 테이블에 정렬된 행을 다시 추가
+		    rows.forEach(row => table.appendChild(row));
+		
+		    // 현재 정렬 상태
+		    sortOrder[columnIndex] = !isAscending;
+		
+		    // 화살표 모양 업데이트
+		    const buttons = document.querySelectorAll('.sort-button');
+		    buttons.forEach(button => {
+		        const targetColumn = button.getAttribute('data-column');
+		        if (targetColumn == columnIndex) {
+		            // 정렬 상태에 따라 화살표 모양 변경
+		            button.textContent = isAscending ? '▲' : '▼';
+		        } else {
+		            button.textContent = '▼';//다른 컬럼 화살표는 변경안되게
+		        }
+		    });
+		}
     </script>
 </body>
 </html>
