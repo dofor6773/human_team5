@@ -13,6 +13,7 @@ temp/
 work/
 logs/
 lib/
+Servers/
 db.properties
 *.xml~
 *.conf
@@ -28,6 +29,7 @@ Thumbs.db
 *.old
 node_modules/
 npm-debug.log
+LoginForm/Login/src/main/webapp/META-INF/
 yarn-debug.log
 yarn-error.log
 *.~lock
