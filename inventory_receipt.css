@@ -1,0 +1,94 @@
+/* style.css */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.container {
+    width: 95%;
+    margin: 1px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+
+h1 {
+    text-align: center;
+}
+
+p {
+        margin: 0; /* 기본 여백 제거 */
+    }
+
+.buttons {
+    --text-align: center;
+    margin-bottom: 5px;
+}
+
+button {
+    padding: 5px 10px;
+    margin: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+form {
+    margin-bottom: 10px;
+}
+
+label {
+		font-size: 18px; /* 글자 크기 */
+       	font-weight: bold; /* 글자 굵기 */
+      	padding: 1px; /* 라벨의 여백 */
+    	--margin-bottom: 5px;
+    	display: inline-block; 
+    	width: 80px; 
+    	text-align: right;
+}
+
+input[type="text"], input[type="number"], input[type="date"] {
+	width: 200px;
+    --width: 100%;
+    padding: 5px;
+    margin-bottom: 15px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.search {
+    margin-bottom: 20px;
+    text-align: lert;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #f9f9f9;
+}
