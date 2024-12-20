@@ -21,8 +21,35 @@ button {
     border-radius: 5px;
 }
 
-button:hover {
-    background-color: #45a049;
+/* 셀 크기 */
+th:nth-child(1), td:nth-child(1) {
+    min-width: 160px; /* 제품코드 */
+    width: 15%; /* 너비 비율 설정 */
+}
+
+th:nth-child(2), td:nth-child(2) {
+    min-width: 280px; /* 제품명 */
+    width: 30%; /* 너비 비율 설정 */
+}
+
+th:nth-child(3), td:nth-child(3) {
+    min-width: 160px; /* 카테고리 */
+    width: 15%; /* 너비 비율 설정 */
+}
+
+th:nth-child(4), td:nth-child(4) {
+    min-width: 120px; /* 포장단위 */
+    width: 10%; /* 너비 비율 설정 */
+}
+
+th:nth-child(5), td:nth-child(5) {
+    min-width: 160px; /* 효능군 */
+    width: 15%; /* 너비 비율 설정 */
+}
+
+th:nth-child(6), td:nth-child(6) {
+    min-width: 130px; /* 생산구분 */
+    width: 10%; /* 너비 비율 설정 */
 }
 
 
@@ -44,18 +71,13 @@ label {
     margin: 5px 0;
 }
 
-input[type="text"],
-input[type="file"] {
+input[type="text"]{
     width: calc(100% - 120px);
     padding: 5px;
     margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 14px;
-}
-
-input[type="file"] {
-    background: #f9f9f9;
 }
 
 /* 조회 버튼 스타일 */
@@ -84,6 +106,9 @@ th, td {
     border: 1px solid #ddd;
     text-align: center;
     font-size: 14px;
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
 }
 
 th {
@@ -92,14 +117,35 @@ th {
     font-weight: bold;
 }
 
-td img {
-    width: 50px;
-    height: auto;
-    border-radius: 5px;
-    cursor: pointer;
-}
 
 /* 테이블 행 hover 스타일 */
 tbody tr:hover {
     background-color: #f1f1f1;
+}
+
+/* 스크롤 */
+tbody {
+    display: block;
+    overflow-y: auto;
+    max-height: 320px;
+}
+
+/* 테이블 헤더 고정 */
+thead, tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+tbody::-webkit-scrollbar {
+    width: 0;  /* 세로 스크롤바를 숨김 */
+    height: 0; /* 가로 스크롤바를 숨김 */
+}
+thead {
+    background: #2a6b2b;
+    color: white;
+}
+
+.top{
+	display: flex;
+	justify-content: space-between;
 }
