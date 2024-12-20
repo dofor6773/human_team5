@@ -8,21 +8,18 @@
     // 폼에서 넘어온 데이터 받기
     String productName = request.getParameter("productName");
     String currentCategory = request.getParameter("productType");  // 카테고리
-    String packagingUnit = request.getParameter("packaging");
-    String efficacyGroup = request.getParameter("effect");
+    String packagingUnit = request.getParameter("packagingUnit");
+    String efficacyGroup = request.getParameter("efficacyGroup");
     String productionType = request.getParameter("productionType");
     String registeredBy = "관리자";  // 관리자
 
-    if (productName == null || productName.trim().isEmpty() || 
-            packagingUnit == null || packagingUnit.trim().isEmpty() || 
-            efficacyGroup == null || efficacyGroup.trim().isEmpty()) {
-            
+    if (productName == null || productName.trim().isEmpty()){
             out.println("<script>alert('모든 필수 항목을 입력해주세요!'); history.back();</script>");
             return;  // 폼 제출을 중단
         }
     
     //날짜 받아오기
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+    SimpleDateFormat sdf = new SimpleDateFormat("yyMM");
     String datePart = sdf.format(new Date());
 
     // 아직 안정한 규칙 맨 앞 aa랑 날짜 뒤 a
@@ -30,7 +27,7 @@
     String suffix = "A";
 
     // 제품 코드 번호를 생성하기 위한 SQL 쿼리
-	String selectSql = "SELECT MAX(SUBSTR(PRODUCT_CODE, 12, 4)) FROM product WHERE PRODUCT_CODE LIKE ?";    Connection conn = DBManager.getDBConnection();
+	String selectSql = "SELECT MAX(SUBSTR(PRODUCT_CODE, 8, 3)) FROM product WHERE PRODUCT_CODE LIKE ?";    Connection conn = DBManager.getDBConnection();
     PreparedStatement pstmt = null;
     ResultSet rs = null;
     String productCode = null;
@@ -49,8 +46,8 @@
                 sequence = Integer.parseInt(maxSequence) + 1;  // 가장 큰 순차 번호에 1을 더함
             }
 
-            // 순차 번호가 4자리로 맞춰지도록 0001 형식으로 처리
-            String sequencePart = String.format("%04d", sequence);
+            // 순차 번호가 3자리로 맞춰지도록 001 형식으로 처리
+            String sequencePart = String.format("%03d", sequence);
 
             // 최종 productCode 생성
             productCode = prefix + datePart + suffix + sequencePart;
