@@ -23,7 +23,11 @@
 	                <a href="./em_input.html">l 사원관리</a>
 	                <a href="./inventory_Receipt.jsp">l 입고관리</a>
 	            </nav>
-	            <span>생산팀>관리자>박휴먼</span>
+	            <span>
+		            <%= session.getAttribute("department") %> >
+		            <%= session.getAttribute("position") %> >
+		            <%= session.getAttribute("employeeName") %>
+		        </span>
             </div>
             <h1>입고관리</h1>
             <p>            
@@ -63,15 +67,17 @@
             <input type="hidden" id="actionType" name="actionType">
             <!-- hidden field (입고id hidden 처리 후 summit때 보내주기) -->
             <input type="hidden" id="receiptId" name="receiptId">
+            
+            <!-- 상단 버튼들 (등록, 수정, 삭제) -->
+	       <div class="buttons">
+	           <button onclick="registerProduct()">등록</button>
+	           <button onclick="updateProduct()">수정</button>
+	           <button onclick="deleteProduct()">삭제</button>
+		    <button onclick="resetSearch()">새로고침</button>
+	       </div>
         </form>
         
-        <!-- 상단 버튼들 (등록, 수정, 삭제) -->
-        <div class="buttons">
-            <button onclick="registerProduct()">등록</button>
-            <button onclick="updateProduct()">수정</button>
-            <button onclick="deleteProduct()">삭제</button>
-		    <button onclick="resetSearch()">새로고침</button>
-        </div>
+        
 
         <!-- 하단 조회 버튼과 검색 입력란 -->
 	    <div class="search">	        
