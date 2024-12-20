@@ -182,6 +182,9 @@
         // 테이블 행 클릭 시 선택된 값을 폼에 채우는 함수
         function selectRow(event) {
             // 클릭한 행을 선택
+            //테이블 헤드 클릭하면 함수 종료
+            //이벤트를 tr로 넣었는데 원하는것은 td부분만 이어서 th부분에는 안되게 해야함
+            if (event.target.tagName === 'TH') return;
             let row = event.target.closest('tr');
             if (!row) return;
 	       	
@@ -281,11 +284,19 @@
 		    const rows = Array.from(table.querySelectorAll('tr'));
 		    const isAscending = sortOrder[columnIndex];
 		
+		    const headers = document.querySelectorAll('th');
+	        headers.forEach((header, index) => {
+	            const arrow = header.querySelector('.sort-arrow');
+	            if (arrow && index !== columnIndex) {
+	                arrow.textContent = '▼';
+	            }
+	        });
+		    
 		    // 정렬 함수
 		    rows.sort((rowA, rowB) => {
 		        const cellA = rowA.querySelectorAll('td')[columnIndex].textContent.trim().toLowerCase();
 		        const cellB = rowB.querySelectorAll('td')[columnIndex].textContent.trim().toLowerCase();
-		
+		        
 		        if (isAscending) {
 		            // 오름차순 정렬
 		            return cellA > cellB ? 1 : (cellA < cellB ? -1 : 0);
@@ -298,9 +309,19 @@
 		    // 테이블에 정렬된 행을 다시 추가
 		    rows.forEach(row => table.appendChild(row));
 		
-		    // 현재 정렬 상태
-		    sortOrder[columnIndex] = !isAscending;
-		}
+		    const currentHeader = headers[columnIndex];
+	        const arrow = currentHeader.querySelector('.sort-arrow');
+	        if (arrow) {
+	            if (isAscending) {
+	                arrow.textContent = '▲';
+	            } else {
+	                arrow.textContent = '▼';
+	            }
+	        }
+
+	        // 현재 정렬 상태 반전
+	        sortOrder[columnIndex] = !isAscending;
+	    }
     </script>
 </body>
 </html>
