@@ -21,7 +21,6 @@
 			" ,(SELECT b.code_name FROM Management_Code b WHERE category = '효능군' AND a.efficacy_group = b.code_id) EFFICACY_GROUP " +
 			" ,CASE    WHEN a.PRODUCTION_TYPE = 'Y' THEN '정상' WHEN a.PRODUCTION_TYPE = 'N' THEN '중단' ELSE '알 수 없음' END AS PRODUCTION_TYPE " +
 			" ,a.REGISTERED_DATE FROM product a ORDER BY a.REGISTERED_DATE DESC ";
-	
 	try {
 		System.out.println("selectSql : " + selectSql);
 	    pstmt = conn.prepareStatement(selectSql);
@@ -36,8 +35,18 @@
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
+	<div class="top">
+    <nav>
+    <a href="./login.jsp">로그인</a>
+    <a href="./inventory_Receipt.jsp">사원관리</a>
+    <a href="./em_input.html">입고관리</a>
+    </nav>
+    <p>생산팀>관리자>박휴면</p>
+    <!-- db에서 팀 직급 이름 받아와야함 -->
+    </div>
     <h2>제품관리</h2>
     <!-- 입력 폼 -->
+    <div class="container">
     <div class="form-container">
         <form id="productForm" method="POST" action="product_management_insert.jsp">
             <label>제품코드</label>
@@ -51,7 +60,7 @@
                 <option value="G001" selected>일반의약품</option>
                 <option value="G002">전문의약품</option>
                 <option value="G003">의약외품</option>
-            </select><br>
+            </select>
             <label>포장단위</label>
            	<select id="packagingUnit" name="packagingUnit" required>
            		<option value="P001" selected>8g</option>
@@ -69,7 +78,7 @@
             	<option value="E004">잇몸약</option>
             	<option value="E005">기타</option>
             	<option value="E006">여성갱년기치료제</option>
-            </select><br>
+            </select>
             <label>생산구분</label>
             <select id="productionType" name="productionType" required>
                 <option value="Y" selected>정상</option>
@@ -96,15 +105,15 @@
 	<table id="receivingTable" onclick="selectRow(event)">
         <thead>
             <tr>
-                <th>제품코드 <button class="sort-button" data-column="0" onclick="sortTable(0)">▼</button></th>
-                <th>제품명<button class="sort-button" data-column="1" onclick="sortTable(1)">▼</button></th>
-                <th>카테고리<button class="sort-button" data-column="2" onclick="sortTable(2)">▼</button></th>
-                <th>포장단위<button class="sort-button" data-column="3" onclick="sortTable(3)">▼</button></th>
-                <th>효능군<button class="sort-button" data-column="4" onclick="sortTable(4)">▼</button></th>
-                <th>생산구분<button class="sort-button" data-column="5" onclick="sortTable(5)">▼</button></th>
+                <th onclick="sortTable(0)">제품코드<span class="sort-arrow">▼</span></th>
+                <th onclick="sortTable(1)">제품명<span class="sort-arrow">▼</span></th>
+                <th onclick="sortTable(2)">카테고리 <span class="sort-arrow">▼</span></th>
+                <th onclick="sortTable(3)">포장단위<span class="sort-arrow">▼</span></th>
+                <th onclick="sortTable(4)">효능군<span class="sort-arrow">▼</span></th>
+                <th onclick="sortTable(5)">생산구분<span class="sort-arrow">▼</span></th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="table-body">
         <%        
 			// 조회한 데이터를 테이블에 출력
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -129,9 +138,6 @@
                 </tr>
                 <% 
                     }
-                %>
-            </tbody>
-        <%
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	        out.println("오류발생: " + e.getMessage());
@@ -142,6 +148,7 @@
         %>
         </tbody>
     </table>
+    </div>
     </div>
     <script type="text/javascript">
     	//수정완료 누르면 DB에 저장
@@ -190,10 +197,6 @@
 	        
             document.getElementById('productCode').value = productCode;
             document.getElementById('productName').value = productName;
-/*             document.getElementById('productType').value = category;
-            document.getElementById('packagingUnit').value = packaging;
-            document.getElementById('efficacyGroup').value = effect;
-            document.getElementById('productionType').value = production; */
             document.getElementById('productDate').value = registeredDate;
             
             let categorySelect = document.getElementById('productType');
@@ -297,18 +300,6 @@
 		
 		    // 현재 정렬 상태
 		    sortOrder[columnIndex] = !isAscending;
-		
-		    // 화살표 모양 업데이트
-		    const buttons = document.querySelectorAll('.sort-button');
-		    buttons.forEach(button => {
-		        const targetColumn = button.getAttribute('data-column');
-		        if (targetColumn == columnIndex) {
-		            // 정렬 상태에 따라 화살표 모양 변경
-		            button.textContent = isAscending ? '▲' : '▼';
-		        } else {
-		            button.textContent = '▼';//다른 컬럼 화살표는 변경안되게
-		        }
-		    });
 		}
     </script>
 </body>
