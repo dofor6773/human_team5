@@ -15,9 +15,15 @@
 	ResultSet rs = null;
 	
 	// 제품 정보 가져오기 SQL 쿼리
-	String selectSql = "SELECT PRODUCT_CODE, PRODUCT_NAME, CURRENT_CATEGORY, PACKAGING_UNIT, EFFICACY_GROUP, PRODUCTION_TYPE, REGISTERED_BY, REGISTERED_DATE FROM product ORDER BY REGISTERED_DATE DESC";
+	String selectSql = "SELECT a.PRODUCT_CODE, a.PRODUCT_NAME" +
+			" ,(SELECT b.code_name FROM Management_Code b WHERE category = '제품구분' AND a.current_category = b.code_id) CURRENT_CATEGORY " +
+			",(SELECT b.code_name FROM Management_Code b WHERE category = '포장단위' AND a.packaging_unit = b.code_id) PACKAGING_UNIT " +
+			" ,(SELECT b.code_name FROM Management_Code b WHERE category = '효능군' AND a.efficacy_group = b.code_id) EFFICACY_GROUP " +
+			" ,CASE    WHEN a.PRODUCTION_TYPE = 'Y' THEN '정상' WHEN a.PRODUCTION_TYPE = 'N' THEN '중단' ELSE '알 수 없음' END AS PRODUCTION_TYPE " +
+			" ,a.REGISTERED_DATE FROM product a ORDER BY a.REGISTERED_DATE DESC ";
 	
 	try {
+		System.out.println("selectSql : " + selectSql);
 	    pstmt = conn.prepareStatement(selectSql);
 	    rs = pstmt.executeQuery();
 %>
@@ -42,18 +48,32 @@
             <input type="text" id="productName" name="productName" required><br>
             <label>카테고리</label>
             <select id="productType" name="productType" required>
-                <option value="OTC" selected>일반의약품</option>
-                <option value="Rx">전문의약품</option>
-                <option value="NonPharmaceutical">의약외품</option>
+                <option value="G001" selected>일반의약품</option>
+                <option value="G002">전문의약품</option>
+                <option value="G003">의약외품</option>
             </select><br>
-            <label>포장단위*</label>
-            <input type="text" id="packaging" name="packaging" required><br>
-            <label>효능군*</label>
-            <input type="text" id="effect" name="effect" required><br>
+            <label>포장단위</label>
+           	<select id="packagingUnit" name="packagingUnit" required>
+           		<option value="P001" selected>8g</option>
+           		<option value="P002">10캡슐/PTP</option>
+           		<option value="P003">10바이알</option>           		
+           		<option value="P004">65ml</option>           		
+           		<option value="P005">270정</option>           		
+           		<option value="P006">120정(PTP)</option>           		
+           	</select><br>
+            <label>효능군</label>
+            <select id="efficacyGroup" name="efficacyGroup">
+            	<option value="E001">감기약</option>
+            	<option value="E002">모기기피지</option>
+            	<option value="E003">상처치료</option>
+            	<option value="E004">잇몸약</option>
+            	<option value="E005">기타</option>
+            	<option value="E006">여성갱년기치료제</option>
+            </select><br>
             <label>생산구분</label>
             <select id="productionType" name="productionType" required>
-                <option value="Normal" selected>정상</option>
-                <option value="Suspended">중단</option>
+                <option value="Y" selected>정상</option>
+                <option value="N">중단</option>
             </select><br>
             <button type="submit">등록</button>
             <button type="button" id="update-button" style="display: none;" onclick="updateProduct()">수정완료</button>
@@ -84,8 +104,8 @@
                 <th>생산구분<button class="sort-button" data-column="5" onclick="sortTable(5)">▼</button></th>
             </tr>
         </thead>
-        <tbody class="sroll">
-        <% 
+        <tbody>
+        <%        
 			// 조회한 데이터를 테이블에 출력
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			while (rs.next()) {
@@ -96,8 +116,8 @@
 			String efficacyGroup = rs.getString("EFFICACY_GROUP");
 			String productionType = rs.getString("PRODUCTION_TYPE");
 			Timestamp registeredDateTimestamp = rs.getTimestamp("REGISTERED_DATE");
-			String registeredDate = dateFormat.format(registeredDateTimestamp);
-                %>
+	        String registeredDate = dateFormat.format(registeredDateTimestamp);        	   
+	        %>
                 <tr>
                     <td><%= productCode %></td>
                     <td><%= productName %></td>
@@ -105,12 +125,12 @@
                     <td><%= packagingUnit %></td>
                     <td><%= efficacyGroup %></td>
                     <td><%= productionType %></td>
+                    <td style="display: none;"><%= registeredDate %></td>
                 </tr>
                 <% 
                     }
                 %>
             </tbody>
-        
         <%
 	    } catch (Exception e) {
 	        e.printStackTrace();
@@ -157,8 +177,6 @@
             // 클릭한 행을 선택
             let row = event.target.closest('tr');
             if (!row) return;
-            
-            let registeredDate = row.getAttribute("data-registered-date");
 	       	
 	        let cells = row.getElementsByTagName('td'); 
             // 각 열의 값을 폼 필드에 설정
@@ -168,14 +186,50 @@
 	        let packaging = cells[3].textContent.trim();
 	        let effect = cells[4].textContent.trim();
 	        let production = cells[5].textContent.trim();  
+	        let registeredDate = cells[6] ? cells[6].textContent.trim() : "";//안보이게 함
 	        
             document.getElementById('productCode').value = productCode;
             document.getElementById('productName').value = productName;
-            document.getElementById('productType').value = category;
-            document.getElementById('packaging').value = packaging;
-            document.getElementById('effect').value = effect;
-            document.getElementById('productionType').value = production;
+/*             document.getElementById('productType').value = category;
+            document.getElementById('packagingUnit').value = packaging;
+            document.getElementById('efficacyGroup').value = effect;
+            document.getElementById('productionType').value = production; */
             document.getElementById('productDate').value = registeredDate;
+            
+            let categorySelect = document.getElementById('productType');
+            for (let option of categorySelect.options) {
+                if (option.text === category) {
+                    option.selected = true;
+                    break;
+                }
+            }
+
+            // 포장단위 값을 select 옵션에 맞게 설정
+            let packagingSelect = document.getElementById('packagingUnit');
+            for (let option of packagingSelect.options) {
+                if (option.text === packaging) {
+                    option.selected = true;
+                    break;
+                }
+            }
+
+            // 효능군 값을 select 옵션에 맞게 설정
+            let efficacySelect = document.getElementById('efficacyGroup');
+            for (let option of efficacySelect.options) {
+                if (option.text === effect) {
+                    option.selected = true;
+                    break;
+                }
+            }
+
+            // 생산구분 값을 select 옵션에 맞게 설정
+            let productionSelect = document.getElementById('productionType');
+            for (let option of productionSelect.options) {
+                if (option.text === production) {
+                    option.selected = true;
+                    break;
+                }
+            }
             
             document.getElementById('update-button').style.display = 'inline-block';
             //수정 누르면 수정완료 옆에 취소 버튼 생김
