@@ -20,8 +20,8 @@
 	            <nav>
 	            	<a href="./login.jsp">l 로그인</a>
 	                <a href="./product_management.jsp">l 제품관리</a>
-	                <a href="./em_input.html">l 사원관리</a>
-	                <a href="./inventory_Receipt.jsp">l 입고관리</a>
+	                <a href="./employees.jsp">l 사원관리</a>
+	                <!-- <a href="./inventory_Receipt.jsp">l 입고관리</a> -->
 	            </nav>
 	            <span>
 		            <%= session.getAttribute("department") %> >
@@ -34,48 +34,50 @@
         </header>
 
         <!-- 입고 정보 입력 폼 -->
-        <form id="productForm"  method="POST">
-            <label for="productCode">제품 코드</label>
-            <input type="text" id="productCode" name="productCode" required>
-            <!--제품찾기 버튼 추가-->
-            <button type="button" onclick="openProductSearch()">찾기</button>
-
-            <label for="productName">제품명</label>
-            <input type="text" id="productName" name="productName">
-
-            <p>
-
-            <label for="supplier">공급업체</label>
-            <input type="text" id="supplier" name="supplier" required>
-            <!--공급업체 찾기 버튼 추가-->
-            <button type="button" onclick="openSupplierSearch()" disabled>찾기</button>
-            
-            <label for="quantity">입고 수량</label>
-            <input type="number" id="quantity" name="quantity" required min="0" style="text-align: right;">
-            
-            <p>
-
-            <label for="warehouseLocation">창고 위치</label>
-            <input type="text" id="warehouseLocation" name="warehouseLocation" required>
-            <!--창고 위치 찾기 버튼 추가-->
-            <button type="button" onclick="openWarehouseSearch()" disabled>찾기</button>
-
-            <label for="receiveDate">입고일자</label>
-            <input type="date" id="receiveDate" name="receiveDate" required>
-            
-            <!-- hidden field to specify the action (등록, 수정, 삭제) -->
-            <input type="hidden" id="actionType" name="actionType">
-            <!-- hidden field (입고id hidden 처리 후 summit때 보내주기) -->
-            <input type="hidden" id="receiptId" name="receiptId">
-            
-            <!-- 상단 버튼들 (등록, 수정, 삭제) -->
-	       <div class="buttons">
-	           <button onclick="registerProduct()">등록</button>
-	           <button onclick="updateProduct()">수정</button>
-	           <button onclick="deleteProduct()">삭제</button>
-		    <button onclick="resetSearch()">새로고침</button>
-	       </div>
-        </form>
+        <form id="productForm" method="POST">
+	    <div class="input-group">
+	        <label for="productCode">제품코드</label>
+	        <input type="text" id="productCode" name="productCode" required>
+	        <button type="button" onclick="openProductSearch()">찾기</button>
+	    </div>
+	
+	    <div class="input-group">
+	        <label for="productName">제품명</label>
+	        <input type="text" id="productName" name="productName">
+	    </div>
+	
+	    <div class="input-group">
+	        <label for="quantity">입고 수량</label>
+	        <input type="number" id="quantity" name="quantity" required min="0" style="text-align: right;">
+	    </div>
+	
+	    <div class="input-group">
+	        <label for="supplier">공급업체</label>
+	        <input type="text" id="supplier" name="supplier" required>
+	        <button type="button" onclick="openSupplierSearch()" disabled style="display:none">찾기</button>
+	    </div>
+	
+	    <div class="input-group">
+	        <label for="warehouseLocation">창고 위치</label>
+	        <input type="text" id="warehouseLocation" name="warehouseLocation" required>
+	    </div>
+	
+	    <div class="input-group">
+	        <label for="receiveDate">입고일자</label>
+	        <input type="date" id="receiveDate" name="receiveDate" required>
+	    </div>
+	
+	    <!-- hidden field to specify the action (등록, 수정, 삭제) -->
+	    <input type="hidden" id="actionType" name="actionType">
+	    <input type="hidden" id="receiptId" name="receiptId">
+	
+	    <div class="buttons">
+	        <button onclick="registerProduct()">등록</button>
+	        <button onclick="updateProduct()">수정</button>
+	        <button onclick="deleteProduct()">삭제</button>
+	        <button onclick="resetSearch()">새로고침</button>
+	    </div>
+	</form>
         
         
 
