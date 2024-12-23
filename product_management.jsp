@@ -37,12 +37,15 @@
 <body>
 	<div class="top">
     <nav>
-    <a href="./login.jsp">l 로그인</a>
-    <a href="./inventory_Receipt.jsp">l 사원관리</a>
-    <a href="./em_input.html">l 입고관리</a>
+	    <a href="./login.jsp">l 로그인</a>
+	    <a href="./inventory_Receipt.jsp">l 입고관리</a>
+	    <a href="./em_input.html">l 사원관리</a>
     </nav>
-    <span>생산팀>관리자>박휴먼</span>
-    <!-- db에서 팀 직급 이름 받아와야함 -->
+    <span>
+		<%= session.getAttribute("department") %> >
+		<%= session.getAttribute("position") %> >
+		<%= session.getAttribute("employeeName") %>
+	</span>
     </div>
     <h2>제품관리</h2>
     <!-- 입력 폼 -->
