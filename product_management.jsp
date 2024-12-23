@@ -13,18 +13,32 @@
 	Connection conn = DBManager.getDBConnection();
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
+	//옵션값
+    ResultSet categoryRs = null;
+    ResultSet packagingRs = null;
+    ResultSet efficacyRs = null;
 	
 	// 제품 정보 가져오기 SQL 쿼리
 	String selectSql = "SELECT a.PRODUCT_CODE, a.PRODUCT_NAME" +
 			" ,(SELECT b.code_name FROM Management_Code b WHERE category = '제품구분' AND a.current_category = b.code_id) CURRENT_CATEGORY " +
-			",(SELECT b.code_name FROM Management_Code b WHERE category = '포장단위' AND a.packaging_unit = b.code_id) PACKAGING_UNIT " +
+			" ,(SELECT b.code_name FROM Management_Code b WHERE category = '포장단위' AND a.packaging_unit = b.code_id) PACKAGING_UNIT " +
 			" ,(SELECT b.code_name FROM Management_Code b WHERE category = '효능군' AND a.efficacy_group = b.code_id) EFFICACY_GROUP " +
 			" ,CASE    WHEN a.PRODUCTION_TYPE = 'Y' THEN '정상' WHEN a.PRODUCTION_TYPE = 'N' THEN '중단' ELSE '알 수 없음' END AS PRODUCTION_TYPE " +
 			" ,a.REGISTERED_DATE FROM product a ORDER BY a.REGISTERED_DATE DESC ";
+	// 메니지먼트 카테고리에서 옵션 넣을거 받아오기
+	String categorySql = "SELECT code_id, code_name FROM Management_Code WHERE category = '제품구분'";
+    String packagingSql = "SELECT code_id, code_name FROM Management_Code WHERE category = '포장단위'";
+    String efficacySql = "SELECT code_id, code_name FROM Management_Code WHERE category = '효능군'";
+	
+	
 	try {
 		System.out.println("selectSql : " + selectSql);
 	    pstmt = conn.prepareStatement(selectSql);
 	    rs = pstmt.executeQuery();
+	    //옵션값 받아오기
+	    categoryRs = conn.prepareStatement(categorySql).executeQuery();
+        packagingRs = conn.prepareStatement(packagingSql).executeQuery();
+        efficacyRs = conn.prepareStatement(efficacySql).executeQuery();
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -37,7 +51,7 @@
 <body>
 	<div class="top">
     <nav>
-	    <a href="./login.jsp">l 로그인</a>
+	    <a href="./login.jsp">l 로그아웃</a>
 	    <a href="./inventory_Receipt.jsp">l 입고관리</a>
 	    <a href="./em_input.html">l 사원관리</a>
     </nav>
@@ -60,27 +74,39 @@
             <input type="text" id="productName" name="productName" required><br>
             <label>카테고리</label>
             <select id="productType" name="productType" required>
-                <option value="G001" selected>일반의약품</option>
-                <option value="G002">전문의약품</option>
-                <option value="G003">의약외품</option>
+			<%
+			while (categoryRs.next()) {
+				String categoryId = categoryRs.getString("code_id");
+	        	String categoryName = categoryRs.getString("code_name");
+			%>
+            	<option value="<%= categoryId %>"><%= categoryName %></option>
+			<%
+				} 
+			%>
             </select>
             <label>포장단위</label>
            	<select id="packagingUnit" name="packagingUnit" required>
-           		<option value="P001" selected>8g</option>
-           		<option value="P002">10캡슐/PTP</option>
-           		<option value="P003">10바이알</option>           		
-           		<option value="P004">65ml</option>           		
-           		<option value="P005">270정</option>           		
-           		<option value="P006">120정(PTP)</option>           		
+			<%
+            while (packagingRs.next()) {
+            	String packagingId = packagingRs.getString("code_id");
+            	String packagingName = packagingRs.getString("code_name");
+			%>
+            	<option value="<%= packagingId %>"><%= packagingName %></option>
+			<% 
+				} 
+			%>         		
            	</select><br>
             <label>효능군</label>
-            <select id="efficacyGroup" name="efficacyGroup">
-            	<option value="E001">감기약</option>
-            	<option value="E002">모기기피지</option>
-            	<option value="E003">상처치료</option>
-            	<option value="E004">잇몸약</option>
-            	<option value="E005">기타</option>
-            	<option value="E006">여성갱년기치료제</option>
+            <select id="efficacyGroup" name="efficacyGroup" required>
+            <%
+            while (efficacyRs.next()) {
+           		String efficacyId = efficacyRs.getString("code_id");
+            	String efficacyName = efficacyRs.getString("code_name");
+            %>
+            	<option value="<%= efficacyId %>"><%= efficacyName %></option>
+            <%
+				}
+            %>
             </select>
             <label>생산구분</label>
             <select id="productionType" name="productionType" required>
@@ -121,14 +147,14 @@
 			// 조회한 데이터를 테이블에 출력
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			while (rs.next()) {
-			String productCode = rs.getString("PRODUCT_CODE");
-			String productName = rs.getString("PRODUCT_NAME");
-			String currentCategory = rs.getString("CURRENT_CATEGORY");
-			String packagingUnit = rs.getString("PACKAGING_UNIT");
-			String efficacyGroup = rs.getString("EFFICACY_GROUP");
-			String productionType = rs.getString("PRODUCTION_TYPE");
-			Timestamp registeredDateTimestamp = rs.getTimestamp("REGISTERED_DATE");
-	        String registeredDate = dateFormat.format(registeredDateTimestamp);        	   
+				String productCode = rs.getString("PRODUCT_CODE");
+				String productName = rs.getString("PRODUCT_NAME");
+				String currentCategory = rs.getString("CURRENT_CATEGORY");
+				String packagingUnit = rs.getString("PACKAGING_UNIT");
+				String efficacyGroup = rs.getString("EFFICACY_GROUP");
+				String productionType = rs.getString("PRODUCTION_TYPE");
+				Timestamp registeredDateTimestamp = rs.getTimestamp("REGISTERED_DATE");
+	        	String registeredDate = dateFormat.format(registeredDateTimestamp);        	   
 	        %>
                 <tr>
                     <td><%= productCode %></td>
@@ -146,6 +172,9 @@
 	        out.println("오류발생: " + e.getMessage());
 	    } finally {
 	        DBManager.dbClose(conn, pstmt, rs);
+	        DBManager.dbClose(conn, null, categoryRs);
+	        DBManager.dbClose(conn, null, packagingRs);
+	        DBManager.dbClose(conn, null, efficacyRs);
 	    }
         
         %>
