@@ -26,7 +26,7 @@ h2 {
     color: white;
 }
 
-/* 테이블 셀 크기 */
+/* 테이블셀 크기 */
 th:nth-child(1), td:nth-child(1) {
     min-width: 160px; /* 제품코드 */
     width: 15%; /* 너비 비율 설정 */
@@ -82,17 +82,22 @@ label {
     display: inline-block;
     width: 100px;
     font-weight: bold;
-    margin: 5px 0;
+    font-size: 16px;
+    padding: 1px;
+    margin-bottom: 10px;
 }
 
+/* 텍스트 박스 스타일 */
 input[type="text"]{
     width: calc(100% - 120px);
     padding: 5px;
     margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    font-size: 14px;
+    font-size: 18px;
+    line-height: 21px;
 }
+
 
 /* 조회 버튼 스타일 */
 .search-container {
@@ -180,7 +185,7 @@ thead {
 }
  a {
     text-decoration: none; /* 링크의 밑줄을 제거 */
-    font-size: 18px; /* 글자 크기를 20px로 설정 */
+    font-size: 18px;
     color: black;
 }   
 p {
