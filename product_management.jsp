@@ -75,6 +75,7 @@
             <input type="text" id="productName" name="productName" required><br>
             <label>카테고리</label>
             <select id="productType" name="productType" required>
+            
 			<%
 			while (categoryRs.next()) {
 				String categoryId = categoryRs.getString("code_id");
@@ -118,6 +119,7 @@
             <button type="button" id="update-button" style="display: none;" onclick="updateProduct()">수정완료</button>
             <button type="button" id="cancel-button" style="display: none;" onclick="cancelEdit()">취소</button>
             <button type="button" id="delete-button" style="display: none;" >삭제</button>
+            <input type="hidden" id="registeredBy" name="registeredBy" value="<%= session.getAttribute("employeeId") %>">
         </form>
     </div>
 
@@ -155,7 +157,8 @@
 				String efficacyGroup = rs.getString("EFFICACY_GROUP");
 				String productionType = rs.getString("PRODUCTION_TYPE");
 				Timestamp registeredDateTimestamp = rs.getTimestamp("REGISTERED_DATE");
-	        	String registeredDate = dateFormat.format(registeredDateTimestamp);        	   
+	        	String registeredDate = dateFormat.format(registeredDateTimestamp);   
+	        	
 	        %>
                 <tr>
                     <td><%= productCode %></td>
