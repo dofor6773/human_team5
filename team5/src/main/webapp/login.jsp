@@ -73,7 +73,7 @@
                             session.setAttribute("position", position);
 
                             // 성공 시 inventory_Receipt.jsp로 리디렉션
-                            response.sendRedirect("./inventory_Receipt.jsp");
+                            response.sendRedirect("./dashboard.jsp");
                         } else {
                             // 로그인 실패
                             request.setAttribute("errorMessage", "아이디 또는 비밀번호가 올바르지 않습니다.");
