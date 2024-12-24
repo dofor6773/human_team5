@@ -9,28 +9,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>제약 입고관리</title>
-    <link rel="stylesheet" href="./css/inventory_receipt.css">
+    <title>사원관리</title>
+    <link rel="stylesheet" href="./css/employees.css">
     <script src="script.js"></script>
-    <script>
-        // 페이지 로드 시 입고일자 필드에 오늘 날짜를 기본값으로 설정
-        window.onload = function() {
-            var today = new Date();
-            var yyyy = today.getFullYear();
-            var mm = today.getMonth() + 1;  // 월은 0부터 시작하므로 1을 더함
-            var dd = today.getDate();
-            
-            // 월과 일이 두 자리가 되도록 보정
-            if (mm < 10) mm = '0' + mm;
-            if (dd < 10) dd = '0' + dd;
-            
-            // 오늘 날짜 (YYYY-MM-DD) 형식으로 변환
-            var todayDate = yyyy + '-' + mm + '-' + dd;
-            
-            // 입고일자 input에 오늘 날짜를 설정
-            document.getElementById('receiveDate').value = todayDate;
-        }
-    </script>
 </head>
 <body>
     <div class="container">
@@ -40,89 +21,95 @@
 	            	<a href="./login.jsp">l 로그아웃</a>
 	    			<a href="./dashboard.jsp">l 메인</a>
 	                <a href="./product_management.jsp">l 제품관리</a>
-	                <a href="./employees.jsp">l 사원관리</a>
+	                <a href="./inventory_Receipt.jsp">l 입고관리</a>
 	            </nav>
 	            <span>
 		            <%= session.getAttribute("department") %> >
 		            <%= session.getAttribute("position") %> >
-		            <%= session.getAttribute("employeeName") %>		            
+		            <%= session.getAttribute("employeeName") %>
 		        </span>
             </div>
-            <h1>입고관리</h1>
+            <h1>사원관리</h1>
             <p>            
         </header>
 
-        <!-- 입고 정보 입력 폼 -->
-        <form id="productForm" method="POST">
+        <!-- 사원 정보 입력 폼 -->
+       <form id="employeesForm" method="POST">
 	    <div class="input-group">
-	        <label for="productCode">제품코드</label>
-	        <input type="text" id="productCode" name="productCode" required>
-	        <button type="button" onclick="openProductSearch()">찾기</button>
-	    </div>
-	    <div class="buttons">
-	    
+	        <label for="employeeId">사원번호(id)</label>
+	        <input type="text" id="employeeId" name="employeeId" style="background-color:  #E2E2E2;" required >
 	    </div>
 	
 	    <div class="input-group">
-	        <label for="productName">제품명</label>
-	        <input type="text" id="productName" name="productName">
-	    </div>
-	
-	    <div class="input-group">
-	        <label for="quantity">입고 수량</label>
-	        <input type="number" id="quantity" name="quantity" required min="0" style="text-align: right;">
+	        <label for="password">비밀번호</label>
+	        <input type="password" id="password" name="password" required >
 	    </div>
 	    
-	   <div class="input-group">
-	        <label for="supplier">공급업체</label>
-	        <select id="supplier" name="supplier" required style="width: 100%;">
-	            <option value="">공급업체를 선택하세요</option>
-	            <option value="PharmaCorp">PharmaCorp</option>
-	            <option value="MediSupplies">MediSupplies(Legal)</option>
-	            <option value="BioHealth">BioHealth</option>
-	            <option value="GlobalPharma">GlobalPharma</option>
-	            <option value="MediLab">MediLab</option>   
+	    <div class="input-group">
+	        <label for="re-password">비밀번호<br>재확인</label>
+	        <input type="password" id="re-password" name="re-password" required >
+	    </div>
+	    
+	    <div class="input-group">
+	        <label for="employeeName">사원명</label>
+	        <input type="text" id="employeeName" name="employeeName" required >
+	    </div>
+	    
+	    <div class="input-group">
+	        <label for="hireDate">입사년월일</label>
+	        <input type="date" id="hireDate" name="hireDate" required>
+	    </div>
+	    
+	    <div class="input-group">
+	        <label for="terminationDate">퇴사년월일</label>
+	        <input type="date" id="terminationDate" name="terminationDate" >
+	    </div>
+	    
+	    <div class="input-group">
+	        <label for="department">부서</label>
+	        <select id="department" name="department" required style="width: 100%;">
+	        	<option value="">부서를 선택하세요</option>
+	            <option value="HR">인사부 (HR)</option>
+	            <option value="PR">생산부 (Production)</option>
+	            <option value="LO">물류부 (Logistics)</option>
 	        </select>
 	    </div>
 	    
-	   	<div class="input-group">
-	        <label for="warehouseLocation">창고위치</label>
-	        <select id="warehouseLocation" name="warehouseLocation" required style="width: 100%;">
-	            <option value="">창고위치를 선택하세요</option>
-	            <option value="Seoul">Seoul</option>
-	            <option value="Busan">Busan</option>
-	            <option value="Incheon">Incheon</option>
-	            <option value="Daegu">Daegu</option>
-	            <option value="Daejeon">Daejeon</option>   
+	    <div class="input-group">
+	        <label for="position">직급</label>
+	        <select id="position" name="position" required style="width: 100%;">
+	            <option value="">직급을 선택하세요</option>
+	            <option value="HD">부장</option>
+	            <option value="Manager">과장 (Manager)</option>
+	            <option value="Assistant_Manager">대리 (Assistant Manager)</option>
+	            <option value="Senior_Staff">주임 (Senior Staff)</option>
+	            <option value="Staff">사원 (Staff)</option>
 	        </select>
 	    </div>
-	
+	    
 	    <div class="input-group">
-	        <label for="receiveDate">입고일자</label>
-	        <input type="date" id="receiveDate" name="receiveDate" required >
+	        <label for="contactNumber">연락처</label>
+	        <input type="text" id="contactNumber" name="contactNumber">
 	    </div>
 	
-	    <!-- hidden field to specify the action (등록, 수정, 삭제) -->
-	    <input type="hidden" id="actionType" name="actionType">
-	    <input type="hidden" id="receiptId" name="receiptId">
-	    <input type="hidden" id="registeredBy" name="registeredBy" value="<%= session.getAttribute("employeeId") %>">  <!-- 세션 정보를 등록자 필드에 삽입 -->>
-	
+		    <!-- hidden field to specify the action (등록, 수정, 삭제) -->
+		    <input type="hidden" id="actionType" name="actionType">
+	    
 	    <div class="buttons">
-	        <button onclick="registerProduct()">등록</button>
-	        <button onclick="updateProduct()">수정</button>
-	        <button onclick="deleteProduct()">삭제</button>
-	        <button onclick="resetSearch()">새로고침</button>
+	        <button type="submit" onclick="registerEmployee()">등록</button>
+	        <button type="submit" onclick="updateEmployee()">수정</button>
+	        <button type="submit" onclick="deleteEmployee()">삭제</button>
+	        <button type="submit" onclick="resetSearch()">새로고침</button>
 	    </div>
-	</form>    
-        
+	</form>        
 
         <!-- 하단 조회 버튼과 검색 입력란 -->
 	    <div class="search">	        
 	        <form id="searchForm"  method="POST">
-		        <label for="searchProductName">제품명</label>
-		        <input type="text" id="searchProductName" name="searchProductName">
+		        <label for="searchEmployeeName">사원명</label>
+		        <input type="text" id="searchEmployeeName" name="searchEmployeeName">
 		        <input type="hidden" id="actionTypeSearch" name="actionTypeSearch">
-		        <button type="submit" onclick="searchProduct()">조회</button>		        
+		        <button type="submit" onclick="searchEmployees()">조회</button>		        
 		    </form>
 	    </div>
 
@@ -130,15 +117,13 @@
         <table id="receivingTable" onclick="selectRow(event)">
             <thead>
                 <tr>
-                    <th>입고 ID</th>
-                    <th>제품 코드</th>
-                    <th>제품명</th>
-                    <th>입고 수량</th>
-                    <th>공급업체</th>
-                    <th>창고 위치</th>
-                    <th>입고일자</th>
-                    <th>등록자</th>
-                    <th>등록일자</th>
+                    <th>사원번호</th>
+                    <th>사원명</th>
+                    <th>연락처</th>
+                    <th>부서</th>
+                    <th>직급</th>
+                    <th>입사일</th>
+                    <th>퇴사일</th>
                 </tr>
             </thead>
             <tbody>
@@ -152,55 +137,46 @@
                         ResultSet rs = null;
                         
                         // 제품명 검색 파라미터 가져오기
-                        String searchProductName = request.getParameter("searchProductName");
+                        String searchEmployeeName = request.getParameter("searchEmployeeName");
                         
                         // 기본 SQL 쿼리
-                        String sql = "SELECT receipt_id, product_code, "
-                                   + "(SELECT product_name FROM Product b WHERE a.product_code = b.product_code) AS product_name, "
-                                   + "quantity, supplier, warehouse_location, TO_CHAR(receipt_date, 'YYYY-MM-DD') AS receipt_date, "
-                                   + "(SELECT c.employee_name FROM Employees c WHERE a.REGISTERED_BY = c.EMPLOYEE_ID) AS registered_by, TO_CHAR(registered_date, 'YYYY-MM-DD') AS registered_date "
-                                   + "FROM Inventory_Receipt a ";
+                       String sql = "SELECT employee_id, employee_name, nvl(contact_number,'-') as contact_number,department,position,nvl(to_char(hire_date, 'YYYY-MM-DD'),'-') as hire_date, nvl(to_char(termination_date, 'YYYY-MM-DD'),'-') as termination_date "
+                       + " FROM Employees ";
                         
                         // 검색어가 있을 경우 SQL 쿼리 수정 (제품명 기준 검색)
-                        if (searchProductName != null && !searchProductName.trim().isEmpty()) {
-                            sql += " WHERE a.product_code IN (SELECT d.product_code FROM Product WHERE d.product_name LIKE ?)";
+                        if (searchEmployeeName != null && !searchEmployeeName.trim().isEmpty()) {
+                        	sql += " WHERE employee_name  LIKE ?";
                         }
                         
-                        sql += "ORDER BY a.product_code";
-                        
-                        System.out.println("sql" + sql);
+                        sql += "ORDER BY employee_id";
 
                         try {
                             pstmt = conn.prepareStatement(sql);
 
                             // 검색어가 있을 경우 파라미터 설정
-                            if (searchProductName != null && !searchProductName.trim().isEmpty()) {
-                                pstmt.setString(1, "%" + searchProductName + "%");
+                            if (searchEmployeeName != null && !searchEmployeeName.trim().isEmpty()) {
+                                pstmt.setString(1, "%" + searchEmployeeName + "%");
                             }
 
                             rs = pstmt.executeQuery();
 
                             while (rs.next()) {
-                                String receiptId = rs.getString("receipt_id");
-                                String productCode = rs.getString("product_code");
-                                String productName = rs.getString("product_name");
-                                String quantity = rs.getString("quantity");
-                                String supplier = rs.getString("supplier");
-                                String warehouseLocation = rs.getString("warehouse_location");
-                                String receiptDate = rs.getString("receipt_date");
-                                String registeredBy = rs.getString("registered_by");
-                                String registeredDate = rs.getString("registered_date");
+                            	String employeeId = rs.getString("employee_id");
+                                String employeeName = rs.getString("employee_name");
+                                String contactNumber = rs.getString("contact_number");
+                                String department = rs.getString("department");
+                                String position = rs.getString("position");
+                                String hireDate = rs.getString("hire_date");
+                                String terminationDate = rs.getString("termination_date");
                 %>
                                 <tr>
-                                    <td><%= receiptId %></td>
-                                    <td><%= productCode %></td>
-                                    <td><%= productName %></td>
-                                    <td><%= quantity %></td>
-                                    <td><%= supplier %></td>
-                                    <td><%= warehouseLocation %></td>
-                                    <td><%= receiptDate %></td>
-                                    <td><%= registeredBy %></td>
-                                    <td><%= registeredDate %></td>
+                                    <td><%= employeeId %></td>
+                                    <td><%= employeeName %></td>
+                                    <td><%= contactNumber %></td>
+                                    <td><%= department %></td>
+                                    <td><%= position %></td>
+                                    <td><%= hireDate %></td>
+                                    <td><%= terminationDate %></td>
                                 </tr>
                 <% 
                             }
@@ -225,19 +201,19 @@
 	    // 새로고침 기능을 위한 함수
 	    function resetSearch() {
 	        // 입력란을 초기화
-	        document.getElementById('searchProductName').value = '';
+	        document.getElementById('searchEmployeeName').value = '';
 	        
 	        // 페이지를 새로고침
 	        location.reload(); // 페이지를 완전히 새로고침
 	    }
 	    
 	    // 조회 버튼 클릭 시
-	    function searchProduct() {
-	        var searchProductName = document.getElementById('searchProductName').value;
+	    function searchEmployee() {
+	        var searchEmployeeName = document.getElementById('searchEmployeeName').value;
 	        
 	        // AJAX 요청 보내기
 	        var xhr = new XMLHttpRequest();
-	        xhr.open("GET", "inventory_Receipt_action.jsp?actionTypeSearch=search&searchProductName=" + searchProductName, true);
+	        xhr.open("GET", "employees_action.jsp?actionTypeSearch=search&searchEmployeeName=" + searchEmployeeName, true);
 	        xhr.onreadystatechange = function() {
 	            if (xhr.readyState == 4 && xhr.status == 200) {
 	                // 테이블에 결과 반영
@@ -248,25 +224,39 @@
 	    }
 	    
 	    // 등록 버튼 클릭 시
-	    function registerProduct() {
+	    function registerEmployee() {
+	    	var password = document.getElementById('password').value;
+	        var rePassword = document.getElementById('re-password').value;
+
+	        // 비밀번호와 재입력한 비밀번호 비교
+	        if (password !== rePassword) {
+	            alert('비밀번호가 일치하지 않습니다.');
+	            
+	            // 비밀번호 필드만 초기화
+	            document.getElementById('password').value = '';
+	            document.getElementById('re-password').value = '';
+	            
+	            return; // 비밀번호가 일치하지 않으면 함수 종료
+	        }
+	        
 	        document.getElementById('actionType').value = 'register';
-	        document.getElementById('productForm').action = './inventory_Receipt_action.jsp';
-	        document.getElementById('productForm').submit();
+	        document.getElementById('employeesForm').action = './employees_action.jsp';
+	        document.getElementById('employeesForm').submit();
 	    }
 	    
 	 	// 수정 버튼 클릭 시
-	    function updateProduct() {
-	        document.getElementById('actionType').value = 'update';
-	        document.getElementById('productForm').action = './inventory_Receipt_action.jsp';
-	        document.getElementById('productForm').submit();
-	    }
+		function updateEmployee() {
+		    document.getElementById('actionType').value = 'update';
+		    document.getElementById('employeesForm').action = './employees_action.jsp';
+		    document.getElementById('employeesForm').submit();
+		}
 
 	    // 삭제 버튼 클릭 시
-	    function deleteProduct() {
+	    function deleteEmployee() {
 	    	if (confirm('정말 삭제하시겠습니까?')) {
 		        document.getElementById('actionType').value = 'delete';
-		        document.getElementById('productForm').action = './inventory_Receipt_action.jsp';
-		        document.getElementById('productForm').submit();
+		        document.getElementById('employeesForm').action = './employees_action.jsp';
+		        document.getElementById('employeesForm').submit();
 	    	}
 	    }
 	    
@@ -278,21 +268,28 @@
 
             // 각 열의 값을 폼 필드에 설정
             var cells = row.getElementsByTagName('td'); 
-            document.getElementById('receiptId').value = cells[0].innerText; // 입고 ID (hidden column 처리:수정,삭제시 입고id필요)
-            document.getElementById('productCode').value = cells[1].innerText; // 제품 코드
-            document.getElementById('productName').value = cells[2].innerText; // 제품명
-            document.getElementById('quantity').value = cells[3].innerText; // 입고 수량
-            document.getElementById('supplier').value = cells[4].innerText; // 공급업체
-            document.getElementById('warehouseLocation').value = cells[5].innerText; // 창고 위치
-            document.getElementById('receiveDate').value = cells[6].innerText; // 입고일자
+            
+            document.getElementById('employeeId').value = cells[0].innerText;  		//사원번호 채우기	
+            document.getElementById('employeeName').value = cells[1].innerText;		//사원명 채우기
+            document.getElementById('contactNumber').value = cells[2].innerText;	//연락처 채우기
+            document.getElementById('department').value = cells[3].innerText; 		//부서 채우기
+            document.getElementById('position').value = cells[4].innerText; 		//직급채우기
+            
+         	// hireDate와 terminationDate는 날짜 형식으로 변환
+            document.getElementById('hireDate').value = formatDate(cells[5].innerText.trim()); // 입사일은 날짜 형식으로 채우기
+            document.getElementById('terminationDate').value = formatDate(cells[6].innerText.trim()); // 퇴사일은 날짜 형식으로 채우기
         }
         
-     	// "제품 찾기" 버튼 클릭 시 팝업창을 여는 함수
-        function openProductSearch() {
-     		//alert('찾기팝업함수호출');
-            // 팝업 창을 새 창으로 여는 코드 (productSearch.jsp 페이지 호출)
-            window.open('./productSearch.jsp', 'productSearch', 'width=600,height=400');
-        }        
+     	// 날짜를 yyyy-mm-dd 형식으로 변환하는 함수
+        function formatDate(dateString) {
+            if (dateString === '-' || dateString === '') {
+                return ''; // 빈 문자열 반환 (입사일 또는 퇴사일이 없는 경우)
+            }
+
+            // 'yyyy-mm-dd' 형식으로 반환
+            return dateString.split('-').join('-');
+        }
+        
 	</script>
     
 </body>
