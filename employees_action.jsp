@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*" %>
 <%@ page import="com.team5.DBManager" %>
+<%@ page import="com.team5.LoggableStatement" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.Date" %>
-
 <%
     String actionType = request.getParameter("actionType");
 	String actionTypeSearch = request.getParameter("actionTypeSearch");
@@ -104,7 +104,6 @@
         String terminationDate = request.getParameter("terminationDate");         
 
         String insertSQL = "INSERT into Employees (employee_id, employee_name, password, hire_date, termination_date, department, position, contact_number, registered_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        
         	
         try (Connection conn = DBManager.getDBConnection()) {
             PreparedStatement pstmt = conn.prepareStatement(insertSQL);
@@ -122,22 +121,24 @@
             e.printStackTrace();
         }
     } else if ("update".equals(actionType)) {
-	    	// Update Employees in the database
-	        String employeeId = request.getParameter("employeeId");
-	        String employeeName = request.getParameter("employeeName");
-	        String contactNumber = request.getParameter("contactNumber");
-	        String department = request.getParameter("department");
-	        String position = request.getParameter("position");
-	        String hireDate = request.getParameter("hireDate"); 
-	        String terminationDate = request.getParameter("terminationDate"); 
-	
-	        // SQL 쿼리 작성 (직원 정보를 업데이트)
-	        String updateSQL = "UPDATE Employees SET employee_name = ?, contact_number = ?, department = ?, position = ?, hire_date = ?, termination_date = ? WHERE employee_id = ? ";
-	        
-        	System.out.println("updateSQL : " + updateSQL);
+    	// Update Employees in the database
+        String employeeId = request.getParameter("employeeId");
+        String employeeName = request.getParameter("employeeName");
+        String contactNumber = request.getParameter("contactNumber");
+        String department = request.getParameter("department");
+        String position = request.getParameter("position");
+        String hireDate = request.getParameter("hireDate"); 
+        String terminationDate = request.getParameter("terminationDate"); 
+
+        // SQL 쿼리 작성 (직원 정보를 업데이트)
+        //String updateSQL = "UPDATE employees SET employee_name = ?, contact_number = ?, department = ?, position = ?, hire_date = ?, termination_date = ? WHERE employee_id = '" + employeeId + "' ";
+        //String updateSQL = "UPDATE employees SET employee_name = ?, contact_number = ?, department = ?, position = ?, hire_date = ?, termination_date = ? WHERE employee_id = cast(? as char(10))";
+        String updateSQL = "UPDATE employees SET employee_name = ?, contact_number = ?, department = ?, position = ?, hire_date = ?, termination_date = ? WHERE employee_id = ?";
         
+       	System.out.println("updateSQL : " + updateSQL);
+       
         try (Connection conn = DBManager.getDBConnection()) {
-            PreparedStatement pstmt = conn.prepareStatement(updateSQL);
+        	PreparedStatement pstmt = conn.prepareStatement(updateSQL);
             pstmt.setString(1, employeeName);
             pstmt.setString(2, contactNumber);
             pstmt.setString(3, department);
@@ -146,8 +147,7 @@
             pstmt.setString(6, terminationDate);
             pstmt.setString(7, employeeId);
             
-         // 각 파라미터 값 출력
-            System.out.println("SQL: " + updateSQL); // SQL 쿼리 출력
+         	// 각 파라미터 값 출력
             System.out.println("employeeName: " + employeeName);
             System.out.println("contactNumber: " + contactNumber);
             System.out.println("department: " + department);
@@ -160,9 +160,19 @@
             
          	// 디버깅을 위해 출력
             System.out.println("SQL: " + updateSQL);
-            System.out.println("employeeId: " + employeeId);
+            /*
+            // ? 파라미터 출력 
+            PreparedStatement stmt = new LoggableStatement(conn, updateSQL);
+            stmt.setString(1, employeeName);
+            stmt.setString(2, contactNumber);
+            stmt.setString(3, department);
+            stmt.setString(4, position);
+            stmt.setString(5, hireDate);
+            stmt.setString(6, terminationDate);
+            stmt.setString(7, employeeId);
+            System.out.println("\t sQuery ? " + ((LoggableStatement)stmt).getQueryString() + "\n"); */
             
-            pstmt.executeUpdate();
+            pstmt.executeUpdate();            
         } catch (SQLException e) {
             e.printStackTrace();
         }
