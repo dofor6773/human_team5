@@ -34,7 +34,7 @@
         </header>
 
         <!-- 사원 정보 입력 폼 -->
-       <form id="employessForm" method="POST">
+       <form id="employeesForm" method="POST">
 	    <div class="input-group">
 	        <label for="employeeId">사원번호(id)</label>
 	        <input type="text" id="employeeId" name="employeeId" style="background-color:  #E2E2E2;" required >
@@ -68,7 +68,8 @@
 	    <div class="input-group">
 	        <label for="department">부서</label>
 	        <select id="department" name="department" required style="width: 100%;">
-	            <option value="HR" selected>인사부 (HR)</option>
+	        	<option value="">부서를 선택하세요</option>
+	            <option value="HR">인사부 (HR)</option>
 	            <option value="FI">재무부 (Finance)</option>
 	            <option value="LE">법무부 (Legal)</option>
 	            <option value="PR">생산부 (Production)</option>
@@ -258,23 +259,23 @@
 	        }
 	        
 	        document.getElementById('actionType').value = 'register';
-	        document.getElementById('employessForm').action = './employees_action.jsp';
-	        document.getElementById('employessForm').submit();
+	        document.getElementById('employeesForm').action = './employees_action.jsp';
+	        document.getElementById('employeesForm').submit();
 	    }
 	    
 	 	// 수정 버튼 클릭 시
 		function updateEmployee() {
 		    document.getElementById('actionType').value = 'update';
-		    document.getElementById('employessForm').action = './employees_action.jsp';
-		    document.getElementById('employessForm').submit();
+		    document.getElementById('employeesForm').action = './employees_action.jsp';
+		    document.getElementById('employeesForm').submit();
 		}
 
 	    // 삭제 버튼 클릭 시
 	    function deleteEmployee() {
 	    	if (confirm('정말 삭제하시겠습니까?')) {
 		        document.getElementById('actionType').value = 'delete';
-		        document.getElementById('employessForm').action = './employees_action.jsp';
-		        document.getElementById('employessForm').submit();
+		        document.getElementById('employeesForm').action = './employees_action.jsp';
+		        document.getElementById('employeesForm').submit();
 	    	}
 	    }
 	    
