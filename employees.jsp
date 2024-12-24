@@ -20,8 +20,7 @@
 	            <nav>
 	            	<a href="./login.jsp">l 로그인</a>
 	                <a href="./product_management.jsp">l 제품관리</a>
-	                <a href="./em_input.html">l 사원관리</a>
-	                <!-- <a href="./inventory_Receipt.jsp">l 입고관리</a> -->
+	                <a href="./inventory_Receipt.jsp">l 입고관리</a>
 	            </nav>
 	            <span>
 		            <%= session.getAttribute("department") %> >
