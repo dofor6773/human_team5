@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>사원관리자 페이지</title>
+  <link rel="stylesheet" href="./css/em_input.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="top">
+        <nav>
+          <a href="./login.jsp">로그인</a>
+          <a href="./product_management.jsp">제품관리</a>
+          <a href="./em_input.html">사원관리</a>
+          <a href="./inventory_Receipt.jsp">입고관리</a>
+        </nav>
+        <span>
+          null > null > null
+        </span>
+      </div>
+      <h1>사원관리</h1>
+    </header>
+  
+    <fieldset>
+
+      <form id="input-form" method="post">
+        <div class="input-row">
+          <div class="input-group">
+            <label for="employeeId">사원번호(id)</label>
+            <input type="text" id="employeeId" required>
+          </div>
+          <div class="input-group">
+            <label>사원명
+            	<input type="text" required>
+            </label>
+          </div>
+        </div>
+        <div class="input-row">
+          <div class="input-group">
+            <label for="password">p.w</label>
+            <input type="password" id="password" required>
+          </div>
+          <div class="input-group">
+            <label for="passwordConfirm">p.w 확인</label>
+            <input type="password" id="passwordConfirm" required>
+          </div>
+        </div>
+        <div class="input-row">
+          <div class="input-group">
+            <label for="joinDate">입사년월일</label>
+            <input type="date" id="joinDate" required>
+          </div>
+          <div class="input-group">
+            <label for="leaveDate">퇴사년월일</label>
+            <input type="date" id="leaveDate" required>
+          </div>
+        </div>
+        <div class="input-row">
+          <div class="input-group">
+            <label for="employeeType">직원구분</label>
+            <select id="employeeType">
+              <option>정규직</option>
+              <option>계약직</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label for="department">부서</label>
+            <select id="department">
+              <option>인사팀</option>
+              <option>생산팀</option>
+            </select>
+          </div>
+        </div>
+        <div class="input-row">
+          <div class="input-group">
+            <label for="phone">연락처</label>
+            <input type="text" id="phone">
+          </div>
+          <div class="input-group">
+            <label for="position">직급</label>
+            <select id="position">
+              <option>관리자</option>
+              <option>사원</option>
+            </select>
+          </div>
+        </div>
+        <div class="input-row">
+          <div class="input-group">
+            <label for="address">주소</label>
+            <input type="text" id="address">
+          </div>
+        </div>
+        <div class="buttons">
+        	<button type="button">등록</button>
+        	<button type="button">수정</button>
+        	<button type="button">삭제</button>  
+      	</div>
+      </form>
+      <div class="search">
+        <button type="submit">조회</button>
+      </div>
+    </fieldset>
+    <table>
+      <thead>
+        <tr>
+          <th>사원번호</th>
+          <th>사원명</th>
+          <th>연락처</th>
+          <th>직원구분</th>
+          <th>부서</th>
+          <th>직급</th>
+          <th>입사일</th>
+          <th>퇴사일</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+</body>
+</html>

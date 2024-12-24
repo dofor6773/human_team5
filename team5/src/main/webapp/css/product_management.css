@@ -1,0 +1,215 @@
+/* 전체 페이지 스타일 */
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f7f7f7;
+    color: #333;
+}
+
+/* 제목 스타일 */
+h2 {
+    color: #2a6b2b;
+    text-align: center;
+    margin-bottom: 20px;
+}
+/* 버튼 스타일 */
+#productForm button{
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    
+    padding: 5px 10px;
+    margin: 5px;
+    font-size: 16px;
+    color: white;
+}
+
+/* 테이블셀 크기 */
+th:nth-child(1), td:nth-child(1) {
+    min-width: 160px; /* 제품코드 */
+    width: 15%; /* 너비 비율 설정 */
+}
+
+th:nth-child(2), td:nth-child(2) {
+    min-width: 280px; /* 제품명 */
+    width: 30%; /* 너비 비율 설정 */
+}
+
+th:nth-child(3), td:nth-child(3) {
+    min-width: 160px; /* 카테고리 */
+    width: 15%; /* 너비 비율 설정 */
+}
+
+th:nth-child(4), td:nth-child(4) {
+    min-width: 120px; /* 포장단위 */
+    width: 10%; /* 너비 비율 설정 */
+}
+
+th:nth-child(5), td:nth-child(5) {
+    min-width: 160px; /* 효능군 */
+    width: 15%; /* 너비 비율 설정 */
+}
+
+th:nth-child(6), td:nth-child(6) {
+    min-width: 130px; /* 생산구분 */
+    width: 10%; /* 너비 비율 설정 */
+}
+
+/* 전체 요소 */
+
+.container {
+    width: 95%;
+    margin: 1px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+/* 폼 컨테이너 스타일 */
+.form-container {
+    width: 90%;
+    max-width: 700px;
+    margin: 0 auto 20px auto;
+    background: #ffffff;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    padding: 15px 20px;
+}
+/* 페이지 전체에 있는 라벨 */
+label {
+    display: inline-block;
+    width: 100px;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 1px;
+    margin-bottom: 10px;
+}
+
+/* 텍스트 박스 스타일 */
+input[type="text"]{
+    width: calc(100% - 120px);
+    padding: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 18px;
+    line-height: 21px;
+}
+
+
+/* 조회 버튼 스타일 */
+.search-container {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.search-container input[type="text"] {
+    width: 50%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* 테이블 스타일 */
+table {
+    width: 100%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    background: white;
+}
+
+th {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+    font-size: 14px;
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
+
+td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+    font-size: 14px;
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
+
+th {
+    background-color: #2a6b2b;
+    color: white;
+    font-weight: bold;
+}
+
+
+/* 테이블 행 hover 스타일 */
+tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* 스크롤 */
+tbody {
+    display: block;
+    overflow-y: auto;
+    max-height: 320px;
+}
+
+/* 테이블 헤더 고정 */
+thead, tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+tbody::-webkit-scrollbar {
+    width: 0;  /* 세로 스크롤바를 숨김 */
+    height: 0; /* 가로 스크롤바를 숨김 */
+}
+thead {
+    background: #2a6b2b;
+    color: white;
+}
+
+/* 맨위 부분(링크, 팀,직급,이름) */
+.top{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin: 0 auto 20px auto;
+	max-width: 1200px;
+	max-height: 53px;
+}
+ a {
+    text-decoration: none; /* 링크의 밑줄을 제거 */
+    font-size: 18px;
+    color: black;
+}   
+p {
+        margin: 0; /* 기본 여백 제거 */
+    }
+nav{
+	padding-left: 10px;
+}
+.top p{
+	padding-right: 10px;
+}
+
+/* 폼에 있는 텍스트박스 옵션 박스 */
+#productForm #productType, #packagingUnit, #efficacyGroup, #productionType{
+	width:130px;
+	padding: 5px;
+    margin-bottom: 15px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+/* 검색창 선택 옵션 */
+#searchCriteria{
+	padding: 2px;
+	font-size: 16px;
+	border-radius: 5px;
+}
