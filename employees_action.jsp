@@ -21,7 +21,7 @@
             ResultSet rs = null;
             
             // 기본 SQL 쿼리
-            String sql = "SELECT employee_id, employee_name, contact_number,department,position,hire_date, termination_date "
+            String sql = "SELECT employee_id, employee_name, nvl(contact_number,'-') as contact_number,department,position,nvl(to_char(hire_date, 'YYYY-MM-DD'),'-') as hire_date, nvl(to_char(termination_date, 'YYYY-MM-DD'),'-') as termination_date "
                        + " FROM Employees ";
             
             // 검색어가 있을 경우 SQL 쿼리 수정 (제품명 기준 검색)
@@ -130,9 +130,10 @@
 	        String position = request.getParameter("position");
 	        String hireDate = request.getParameter("hireDate"); 
 	        String terminationDate = request.getParameter("terminationDate"); 
-
-	        String updateSQL = "UPDATE Employees SET employee_name = ?, contact_number = ?, department = ?, position = ?, hire_date = ?, termination_date = ? WHERE employee_id = ?";
-        
+	
+	        // SQL 쿼리 작성 (직원 정보를 업데이트)
+	        String updateSQL = "UPDATE Employees SET employee_name = ?, contact_number = ?, department = ?, position = ?, hire_date = ?, termination_date = ? WHERE employee_id = ? ";
+	        
         	System.out.println("updateSQL : " + updateSQL);
         
         try (Connection conn = DBManager.getDBConnection()) {
@@ -157,6 +158,10 @@
             System.out.println("registeredBy: 로긴사용자");
             System.out.println("employeeId: " + employeeId);
             
+         	// 디버깅을 위해 출력
+            System.out.println("SQL: " + updateSQL);
+            System.out.println("employeeId: " + employeeId);
+            
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -167,6 +172,10 @@
         try (Connection conn = DBManager.getDBConnection()) {
             PreparedStatement pstmt = conn.prepareStatement(deleteSQL);
             pstmt.setString(1, employeeId);
+            
+         	// 디버깅을 위해 출력
+            System.out.println("SQL: " + deleteSQL);
+            System.out.println("employeeId: " + employeeId);
             pstmt.executeUpdate();
             
         } catch (SQLException e) {
@@ -175,7 +184,7 @@
     }
 %>
 <%
-	if ("register".equals(actionType)||"update".equals(actionType)||"delete".equals(actionType)) {
-		response.sendRedirect("./employees.jsp");
-	}
+    if ("register".equals(actionType) || "update".equals(actionType) || "delete".equals(actionType)) {
+        response.sendRedirect("./employees.jsp");
+    }
 %>
