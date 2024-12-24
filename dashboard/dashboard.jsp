@@ -24,7 +24,7 @@
 			<div class="nav-left">
 				<a href="./product_management.jsp" onclick="return checkAccess1()">제품 관리</a>
 				<a href="./inventory_Receipt.jsp" onclick="return checkAccess2()">입고 관리</a>
-				<a href="./em_input.html" onclick="return checkAccess3()" >사원 관리</a>
+				<a href="./employees.jsp" onclick="return checkAccess3()" >사원 관리</a>
 			</div>
 		</nav>
 	</div>
