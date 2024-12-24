@@ -141,15 +141,12 @@ thead {
 	justify-content: space-between;
 }
 
-/* 폼 전체 스타일 */
-#productForm {
-    border: 1px solid #ccc; /* 테두리 */
-    border-radius: 10px; /* 둥근 모서리 */
-    padding: 20px; /* 폼 내부 여백 */
-    background-color: #f9f9f9; /* 배경 색상 */
-    width: 100%; /* 화면 크기에 맞게 가로를 꽉 채움 */
-    max-width: 95%; /* 최대 너비를 800px로 설정하여 너무 넓어지지 않도록 제한 */
-    margin: 20px auto; /* 중앙 정렬 */
+/* 입고 관리폼 전체 스타일 */
+#productForm {    
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1px; /* 항목 간 간격을 10px로 줄임 */
+    margin: 20px 0;
 }
 
 
@@ -160,7 +157,7 @@ thead {
 }
 
 
-/* 폼 전체 스타일 */
+/* 사원관리 폼 전체 스타일 */
 #employessForm {
     display: flex;
     flex-wrap: wrap;
