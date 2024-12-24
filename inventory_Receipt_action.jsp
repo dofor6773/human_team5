@@ -105,6 +105,7 @@
         String warehouseLocation = request.getParameter("warehouseLocation");
         String receiveDate = request.getParameter("receiveDate");
         String receiptId = request.getParameter("receiptId"); //hidden값
+        String registeredBy = request.getParameter("registeredBy"); //hidden값
         
 
         String insertSQL = "INSERT INTO Inventory_Receipt (product_code, quantity, supplier, warehouse_location, receipt_date, registered_by) VALUES (?, ?, ?, ?, ?, ?)";
@@ -115,7 +116,7 @@
             pstmt.setString(3, supplier);
             pstmt.setString(4, warehouseLocation);
             pstmt.setString(5, receiveDate);
-            pstmt.setString(6, "로긴사용자");
+            pstmt.setString(6, registeredBy);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
