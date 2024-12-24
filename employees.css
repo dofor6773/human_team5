@@ -161,7 +161,7 @@ thead {
 
 
 /* 폼 전체 스타일 */
-#employessForm {
+#employeesForm {
     display: flex;
     flex-wrap: wrap;
     gap: 1px; /* 항목 간 간격을 10px로 줄임 */
