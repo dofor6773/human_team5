@@ -4,118 +4,168 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>사원관리자 페이지</title>
-  <link rel="stylesheet" href="./css/em_input.css">
 </head>
 <body>
-  <div class="container">
-    <header>
-      <div class="top">
-        <nav>
-          <a href="./login.jsp">로그인</a>
-          <a href="./product_management.jsp">제품관리</a>
-          <a href="./em_input.html">사원관리</a>
-          <a href="./inventory_Receipt.jsp">입고관리</a>
-        </nav>
-        <span>
-          null > null > null
-        </span>
-      </div>
-      <h1>사원관리</h1>
-    </header>
   
-    <fieldset>
+  <h1>사원관리</h1>
 
-      <form id="input-form" method="post">
-        <div class="input-row">
-          <div class="input-group">
-            <label for="employeeId">사원번호(id)</label>
-            <input type="text" id="employeeId" required>
-          </div>
-          <div class="input-group">
-            <label>사원명
-            	<input type="text" required>
-            </label>
-          </div>
-        </div>
-        <div class="input-row">
-          <div class="input-group">
-            <label for="password">p.w</label>
-            <input type="password" id="password" required>
-          </div>
-          <div class="input-group">
-            <label for="passwordConfirm">p.w 확인</label>
-            <input type="password" id="passwordConfirm" required>
-          </div>
-        </div>
-        <div class="input-row">
-          <div class="input-group">
-            <label for="joinDate">입사년월일</label>
-            <input type="date" id="joinDate" required>
-          </div>
-          <div class="input-group">
-            <label for="leaveDate">퇴사년월일</label>
-            <input type="date" id="leaveDate" required>
-          </div>
-        </div>
-        <div class="input-row">
-          <div class="input-group">
-            <label for="employeeType">직원구분</label>
-            <select id="employeeType">
-              <option>정규직</option>
-              <option>계약직</option>
-            </select>
-          </div>
-          <div class="input-group">
-            <label for="department">부서</label>
-            <select id="department">
-              <option>인사팀</option>
-              <option>생산팀</option>
-            </select>
-          </div>
-        </div>
-        <div class="input-row">
-          <div class="input-group">
-            <label for="phone">연락처</label>
-            <input type="text" id="phone">
-          </div>
-          <div class="input-group">
-            <label for="position">직급</label>
-            <select id="position">
-              <option>관리자</option>
-              <option>사원</option>
-            </select>
-          </div>
-        </div>
-        <div class="input-row">
-          <div class="input-group">
-            <label for="address">주소</label>
-            <input type="text" id="address">
-          </div>
-        </div>
-        <div class="buttons">
-        	<button type="button">등록</button>
-        	<button type="button">수정</button>
-        	<button type="button">삭제</button>  
-      	</div>
-      </form>
-      <div class="search">
-        <button type="submit">조회</button>
-      </div>
-    </fieldset>
-    <table>
-      <thead>
-        <tr>
-          <th>사원번호</th>
-          <th>사원명</th>
-          <th>연락처</th>
-          <th>직원구분</th>
-          <th>부서</th>
-          <th>직급</th>
-          <th>입사일</th>
-          <th>퇴사일</th>
-        </tr>
-      </thead>
-    </table>
-  </div>
+  <button>등록</button>
+  <button>수정</button>
+  <button>삭제</button>
+
+  <div class="em_input">
+    <form>
+      <label>사원번호(id)
+        <input type="text" disabled></input>
+      </label>
+ 
+      <label>사원명
+      <input type="text" required autofocus></input>
+      </label>
+      <br>
+      <label>p.w
+        <input type="password" id="p.w"></input>
+        </label>
+      <label>p.w 재확인
+      <input type="password" id="re_p.w"></input>
+      </label>
+      <br>
+      <label for="joy firm" >입사년월일
+        <input type="date" id="joy_firm" min="1990-01-01" max="2025-01-01" required ></input>
+      </label>
+  
+      <label for="naga firm">퇴사년월일
+        <input type="date" id="naga_firm" min="1990-01-01" max="2025-01-01"></input>
+      </label>
+      <br>
+      <label>부서 
+        <select id="department">
+          <option value="" disabled selected>부서</option>
+          <option value="HR">인사팀</option>
+          <option value="Manufacture">생산팀</option>
+        </select> 
+      <label> 
+
+      <label>직급 
+        <select id="position">
+          <option value="" disabled selected>직급</option>
+          <option value="">관리자</option>
+          <option value="">팀장</option>
+          <option value="">사원</option>
+        </select> 
+      <label> 
+      <br>
+      <label for="tel">연락처
+        <input type="tel"></input> 
+        <!--연락처 형식 휴대전화로 정해놓을지? -->
+      </label>
+      <br>
+
+ <label for="Home">주소</label>
+ <form>
+  <select id="sido" name="sido" onchange="updateGugun()">
+    <option value=""> 시도를 선택하세요 </option>
+    <option value="서울">서울특별시</option>
+    <option value="부산">부산광역시</option>
+    <option value="대구">대구광역시</option>
+    <option value="인천">인천광역시</option>
+    <option value="대전">대전광역시</option>
+    <option value="울산">울산광역시</option>
+    <option value="경기">경기도</option>
+    <option value="강원">강원도</option>
+    <option value="충남">충청남도</option>
+    <option value="충북">충청북도</option>
+    <option value="전남">전라남도</option>
+    <option value="전북">전라북도</option>
+    <option value="경남">경상남도</option>
+    <option value="경북">경상북도</option>
+    <option value="제주">제주도</option>
+  </select>
+  
+  <select id="gugun" name="gugun">
+    <option value=""> 구/군을 선택하세요</option>   
+    <!-- 구/군은 JavaScript로 동적으로 변경 -->
+    <br>
+  </select>
+</form>
+
+<input type="text" placeholder="상세 주소를 입력하세요.">
+<!-- db 연결해서 조회해야 하는데.. -->
+<input type="text"> 
+<button>조회</button>
+
+</div>
+
+
+
+<script>
+  function updateGugun() {
+    const sido = document.getElementById("sido").value;
+    const gugun = document.getElementById("gugun");
+    
+    // 구/군 목록 초기화
+    gugun.innerHTML = '<option value=""> 구/군을 선택하세요</option>';
+    
+    let options = [];
+
+    // 시도에 따른 구/군 목록 설정
+    if (sido === "서울") {
+      options = ["강남구", "서초구", "종로구", "마포구", "구로구", "노원구", "송파구", "양천구", "영등포구", "용산구", "은평구", "중구"];
+    } else if (sido === "부산") {
+      options = ["해운대구", "수영구", "동래구", "남구", "북구", "사상구", "사하구", "서구", "연제구", "영도구"];
+    } else if (sido === "대구") {
+      options = ["중구", "서구", "동구", "남구", "북구", "달서구", "달성군"];
+    } else if (sido === "인천") {
+      options = ["계양구", "남동구", "동구", "미추홀구", "부평구", "서구", "연수구", "옹진군"];
+    } else if (sido === "대전") {
+      options = ["대덕구", "동구", "서구", "유성구", "중구"];
+    } else if (sido === "울산") {
+      options = ["남구", "동구", "북구", "울주군", "중구"];
+    } else if (sido === "경기") {
+      options = ["수원시", "성남시", "안양시", "고양시", "용인시", "부천시", "안산시", "화성시", "평택시", "오산시", "파주시", "의정부시", "시흥시"];
+    } else if (sido === "강원") {
+      options = ["춘천시", "원주시", "강릉시", "동해시", "태백시", "속초시", "양구군", "영월군", "고성군", "고성군", "정선군"];
+    } else if (sido === "충남") {
+      options = ["계룡시", "공주시", "논산시", "당진시", "보령시", "서산시", "아산시", "천안시", "서천군"];
+    } else if (sido === "충북") {
+      options = ["청주시", "제천시", "진천군", "음성군", "괴산군", "보은군", "단양군", "옥천군", "증평군"];
+    } else if (sido === "전남") {
+      options = ["목포시", "여수시", "순천시", "광양시", "나주시", "담양군", "순창군", "보성군", "강진군"];
+    } else if (sido === "전북") {
+      options = ["전주시", "익산시", "군산시", "김제시", "남원시", "정읍시", "완주군", "고창군"];
+    } else if (sido === "경남") {
+      options = ["창원시", "김해시", "양산시", "진주시", "사천시", "밀양시", "거제시", "통영시", "함양군"];
+    } else if (sido === "경북") {
+      options = ["포항시", "경산시", "구미시", "김천시", "안동시", "영주시", "상주시", "경주시", "울진군"];
+    } else if (sido === "제주") {
+      options = ["제주시", "서귀포시"];
+    }
+
+    // 구/군 목록에 동적으로 옵션 추가
+    options.forEach(function(g) {
+      let option = document.createElement("option");
+      option.value = g;
+      option.textContent = g;
+      gugun.appendChild(option);
+    });
+  }
+
+
+let pw = document.getElementById("p.w");
+let re_pw = document.getElementById("re_p.w");
+
+if(pw.value===re_pw.value){
+  alert("비밀번호가 동일합니다.");
+} else {
+  alert("비밀번호가 일치하지 않습니다.");
+}
+
+
+
+
+</script>
+
+
+
 </body>
 </html>

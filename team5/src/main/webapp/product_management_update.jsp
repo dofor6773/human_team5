@@ -9,8 +9,8 @@
     String productCode = request.getParameter("productCode");
     String productName = request.getParameter("productName");
     String currentCategory = request.getParameter("productType");
-    String packagingUnit = request.getParameter("packaging");
-    String efficacyGroup = request.getParameter("effect");
+    String packagingUnit = request.getParameter("packagingUnit");
+    String efficacyGroup = request.getParameter("efficacyGroup");
     String productionType = request.getParameter("productionType");
 
     // DB 연결
@@ -30,12 +30,17 @@
         pstmt.setString(6, productCode);
 
         int rowsAffected = pstmt.executeUpdate();
+        
+        if (rowsAffected > 0) {
+            //성공시 바로 html파일로 넘어감
+            response.sendRedirect("product_management.jsp");
+        } else {
+            out.println("제품 등록에 실패했습니다.");
+        }
+        
     } catch (Exception e) {
         e.printStackTrace();
     } finally {
         DBManager.dbClose(conn, pstmt, null);
     }
-
-    // 수정 후 페이지 리디렉션
-    response.sendRedirect("product_management.jsp");
 %>

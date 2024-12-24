@@ -18,7 +18,8 @@
         <header>
         	<div class="top">
 	            <nav>
-	            	<a href="./login.jsp">l 로그인</a>
+	            	<a href="./login.jsp">l 로그아웃</a>
+	    			<a href="./dashboard.jsp">l 메인</a>
 	                <a href="./product_management.jsp">l 제품관리</a>
 	                <a href="./inventory_Receipt.jsp">l 입고관리</a>
 	            </nav>
