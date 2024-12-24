@@ -30,7 +30,6 @@
                 <label for="rememberMe">아이디 저장</label>
             </div>
             <button type="submit" class="login-btn" id="loginButton">로그인</button>
-            
             <%
                 // 폼이 제출되었을 때 로그인 처리
                 String username = request.getParameter("username");
@@ -62,13 +61,19 @@
                             // 세션에 사용자 정보 저장
                             String employeeId = rs.getString("employee_id");
                             String employeeName = rs.getString("employee_name");
+			   // 세션 정보 추가
+                            String department = rs.getString("department");
+                            String position = rs.getString("position");
 
                             // 로그인 성공 시 세션에 정보 저장
                             session.setAttribute("employeeId", employeeId);
                             session.setAttribute("employeeName", employeeName);
+			    //세션 정보 추가
+                            session.setAttribute("department", department);
+                            session.setAttribute("position", position);
 
                             // 성공 시 inventory_Receipt.jsp로 리디렉션
-                            response.sendRedirect("./inventory_Receipt.jsp");
+                            response.sendRedirect("./dashboard.jsp");
                         } else {
                             // 로그인 실패
                             request.setAttribute("errorMessage", "아이디 또는 비밀번호가 올바르지 않습니다.");
@@ -93,7 +98,6 @@
             <%
                 }
             %>
-			</div>
         </form>
     </div>
 </body>
