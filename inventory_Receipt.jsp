@@ -12,6 +12,25 @@
     <title>제약 입고관리</title>
     <link rel="stylesheet" href="./css/inventory_receipt.css">
     <script src="script.js"></script>
+    <script>
+        // 페이지 로드 시 입고일자 필드에 오늘 날짜를 기본값으로 설정
+        window.onload = function() {
+            var today = new Date();
+            var yyyy = today.getFullYear();
+            var mm = today.getMonth() + 1;  // 월은 0부터 시작하므로 1을 더함
+            var dd = today.getDate();
+            
+            // 월과 일이 두 자리가 되도록 보정
+            if (mm < 10) mm = '0' + mm;
+            if (dd < 10) dd = '0' + dd;
+            
+            // 오늘 날짜 (YYYY-MM-DD) 형식으로 변환
+            var todayDate = yyyy + '-' + mm + '-' + dd;
+            
+            // 입고일자 input에 오늘 날짜를 설정
+            document.getElementById('receiveDate').value = todayDate;
+        }
+    </script>
 </head>
 <body>
     <div class="container">
@@ -26,7 +45,7 @@
 	            <span>
 		            <%= session.getAttribute("department") %> >
 		            <%= session.getAttribute("position") %> >
-		            <%= session.getAttribute("employeeName") %>
+		            <%= session.getAttribute("employeeName") %>		            
 		        </span>
             </div>
             <h1>입고관리</h1>
@@ -40,6 +59,9 @@
 	        <input type="text" id="productCode" name="productCode" required>
 	        <button type="button" onclick="openProductSearch()">찾기</button>
 	    </div>
+	    <div class="buttons">
+	    
+	    </div>
 	
 	    <div class="input-group">
 	        <label for="productName">제품명</label>
@@ -50,26 +72,40 @@
 	        <label for="quantity">입고 수량</label>
 	        <input type="number" id="quantity" name="quantity" required min="0" style="text-align: right;">
 	    </div>
-	
-	    <div class="input-group">
+	    
+	   <div class="input-group">
 	        <label for="supplier">공급업체</label>
-	        <input type="text" id="supplier" name="supplier" required>
-	        <button type="button" onclick="openSupplierSearch()" disabled style="display:none">찾기</button>
+	        <select id="supplier" name="supplier" required style="width: 100%;">
+	            <option value="">공급업체를 선택하세요</option>
+	            <option value="PharmaCorp">PharmaCorp</option>
+	            <option value="MediSupplies">MediSupplies(Legal)</option>
+	            <option value="BioHealth">BioHealth</option>
+	            <option value="GlobalPharma">GlobalPharma</option>
+	            <option value="MediLab">MediLab</option>   
+	        </select>
 	    </div>
-	
-	    <div class="input-group">
-	        <label for="warehouseLocation">창고 위치</label>
-	        <input type="text" id="warehouseLocation" name="warehouseLocation" required>
+	    
+	   	<div class="input-group">
+	        <label for="warehouseLocation">창고위치</label>
+	        <select id="warehouseLocation" name="warehouseLocation" required style="width: 100%;">
+	            <option value="">창고위치를 선택하세요</option>
+	            <option value="Seoul">Seoul</option>
+	            <option value="Busan">Busan</option>
+	            <option value="Incheon">Incheon</option>
+	            <option value="Daegu">Daegu</option>
+	            <option value="Daejeon">Daejeon</option>   
+	        </select>
 	    </div>
 	
 	    <div class="input-group">
 	        <label for="receiveDate">입고일자</label>
-	        <input type="date" id="receiveDate" name="receiveDate" required>
+	        <input type="date" id="receiveDate" name="receiveDate" required >
 	    </div>
 	
 	    <!-- hidden field to specify the action (등록, 수정, 삭제) -->
 	    <input type="hidden" id="actionType" name="actionType">
 	    <input type="hidden" id="receiptId" name="receiptId">
+	    <input type="hidden" id="registeredBy" name="registeredBy" value="<%= session.getAttribute("employeeId") %>">  <!-- 세션 정보를 등록자 필드에 삽입 -->>
 	
 	    <div class="buttons">
 	        <button onclick="registerProduct()">등록</button>
@@ -77,8 +113,7 @@
 	        <button onclick="deleteProduct()">삭제</button>
 	        <button onclick="resetSearch()">새로고침</button>
 	    </div>
-	</form>
-        
+	</form>    
         
 
         <!-- 하단 조회 버튼과 검색 입력란 -->
@@ -123,15 +158,17 @@
                         String sql = "SELECT receipt_id, product_code, "
                                    + "(SELECT product_name FROM Product b WHERE a.product_code = b.product_code) AS product_name, "
                                    + "quantity, supplier, warehouse_location, TO_CHAR(receipt_date, 'YYYY-MM-DD') AS receipt_date, "
-                                   + "registered_by, TO_CHAR(registered_date, 'YYYY-MM-DD') AS registered_date "
+                                   + "(SELECT c.employee_name FROM Employees c WHERE a.REGISTERED_BY = c.EMPLOYEE_ID) AS registered_by, TO_CHAR(registered_date, 'YYYY-MM-DD') AS registered_date "
                                    + "FROM Inventory_Receipt a ";
                         
                         // 검색어가 있을 경우 SQL 쿼리 수정 (제품명 기준 검색)
                         if (searchProductName != null && !searchProductName.trim().isEmpty()) {
-                            sql += " WHERE a.product_code IN (SELECT product_code FROM Product WHERE product_name LIKE ?)";
+                            sql += " WHERE a.product_code IN (SELECT d.product_code FROM Product WHERE d.product_name LIKE ?)";
                         }
                         
-                        sql += "ORDER BY product_code";
+                        sql += "ORDER BY a.product_code";
+                        
+                        System.out.println("sql" + sql);
 
                         try {
                             pstmt = conn.prepareStatement(sql);
@@ -209,14 +246,6 @@
 	        };
 	        xhr.send();
 	    }
-	    
-/* 	    // 조회 버튼 클릭 시
-	    function searchProduct() {
-	    	//alert('조회버튼클릭!');
-	        document.getElementById('actionTypeSearch').value = 'search';
-	        document.getElementById('searchForm').action = './inventory_Receipt_action.jsp';
-	        document.getElementById('searchForm').submit();
-	    } */
 	    
 	    // 등록 버튼 클릭 시
 	    function registerProduct() {
