@@ -42,17 +42,17 @@
 
     <div class="input-group">
         <label for="password">비밀번호</label>
-        <input type="text" id="password" name="password">
+        <input type="password" id="password" name="password" required >
     </div>
     
     <div class="input-group">
         <label for="re-password">비밀번호<br>재확인</label>
-        <input type="text" id="re-password" name="re-password">
+        <input type="password" id="re-password" name="re-password" required >
     </div>
     
     <div class="input-group">
         <label for="employeeName">사원명</label>
-        <input type="text" id="employeeName" name="employeeName">
+        <input type="text" id="employeeName" name="employeeName" required >
     </div>
     
     <div class="input-group">
@@ -62,7 +62,7 @@
     
     <div class="input-group">
         <label for="terminationDate">퇴사년월일</label>
-        <input type="date" id="terminationDate" name="terminationDate" required>
+        <input type="date" id="terminationDate" name="terminationDate" >
     </div>
     
     <div class="input-group">
@@ -110,14 +110,14 @@
         <input type="text" id="contactNumber" name="contactNumber">
     </div>
 
-    <input type="hidden" id="actionType" name="actionType">
-    <input type="hidden" id="receiptId" name="receiptId">
+	    <!-- hidden field to specify the action (등록, 수정, 삭제) -->
+	    <input type="hidden" id="actionType" name="actionType">
     
     <div class="buttons">
-        <button type="button" onclick="registerProduct()">등록</button>
-        <button type="button" onclick="updateProduct()">수정</button>
-        <button type="button" onclick="deleteProduct()">삭제</button>
-        <button type="button" onclick="resetSearch()">새로고침</button>
+        <button type="submit" onclick="registerEmployee()">등록</button>
+        <button type="submit" onclick="updateEmployee()">수정</button>
+        <button type="submit" onclick="deleteEmployee()">삭제</button>
+        <button type="submit" onclick="resetSearch()">새로고침</button>
     </div>
 </form>        
 
@@ -127,7 +127,7 @@
 		        <label for="searchEmployeeName">사원명</label>
 		        <input type="text" id="searchEmployeeName" name="searchEmployeeName">
 		        <input type="hidden" id="actionTypeSearch" name="actionTypeSearch">
-		        <button type="submit" onclick="searchProduct()">조회</button>		        
+		        <button type="submit" onclick="searchEmployees()">조회</button>		        
 		    </form>
 	    </div>
 
@@ -158,7 +158,7 @@
                         String searchEmployeeName = request.getParameter("searchEmployeeName");
                         
                         // 기본 SQL 쿼리
-                       String sql = "SELECT employee_id, employee_name, contact_number,department,position,hire_date, termination_date "
+                       String sql = "SELECT employee_id, employee_name, nvl(contact_number,'-') as contact_number,department,position,nvl(to_char(hire_date, 'YYYY-MM-DD'),'-') as hire_date, nvl(to_char(termination_date, 'YYYY-MM-DD'),'-') as termination_date "
                        + " FROM Employees ";
                         
                         // 검색어가 있을 경우 SQL 쿼리 수정 (제품명 기준 검색)
@@ -226,7 +226,7 @@
 	    }
 	    
 	    // 조회 버튼 클릭 시
-	    function searchProduct() {
+	    function searchEmployee() {
 	        var searchEmployeeName = document.getElementById('searchEmployeeName').value;
 	        
 	        // AJAX 요청 보내기
@@ -242,21 +242,35 @@
 	    }
 	    
 	    // 등록 버튼 클릭 시
-	    function registerProduct() {
+	    function registerEmployee() {
+	    	var password = document.getElementById('password').value;
+	        var rePassword = document.getElementById('re-password').value;
+
+	        // 비밀번호와 재입력한 비밀번호 비교
+	        if (password !== rePassword) {
+	            alert('비밀번호가 일치하지 않습니다.');
+	            
+	            // 비밀번호 필드만 초기화
+	            document.getElementById('password').value = '';
+	            document.getElementById('re-password').value = '';
+	            
+	            return; // 비밀번호가 일치하지 않으면 함수 종료
+	        }
+	        
 	        document.getElementById('actionType').value = 'register';
 	        document.getElementById('employessForm').action = './employees_action.jsp';
 	        document.getElementById('employessForm').submit();
 	    }
 	    
 	 	// 수정 버튼 클릭 시
-	    function updateProduct() {
-	        document.getElementById('actionType').value = 'update';
-	        document.getElementById('employessForm').action = './employees_action.jsp';
-	        document.getElementById('employessForm').submit();
-	    }
+		function updateEmployee() {
+		    document.getElementById('actionType').value = 'update';
+		    document.getElementById('employessForm').action = './employees_action.jsp';
+		    document.getElementById('employessForm').submit();
+		}
 
 	    // 삭제 버튼 클릭 시
-	    function deleteProduct() {
+	    function deleteEmployee() {
 	    	if (confirm('정말 삭제하시겠습니까?')) {
 		        document.getElementById('actionType').value = 'delete';
 		        document.getElementById('employessForm').action = './employees_action.jsp';
@@ -272,15 +286,26 @@
 
             // 각 열의 값을 폼 필드에 설정
             var cells = row.getElementsByTagName('td'); 
-            document.getElementById('employeeId').value = cells[0].innerText; 
-            document.getElementById('employeeName').value = cells[1].innerText;
-            document.getElementById('contactNumber').value = cells[2].innerText;
-            document.getElementById('department').value = cells[3].innerText; 
-            document.getElementById('position').value = cells[4].innerText; 
+            
+            document.getElementById('employeeId').value = cells[0].innerText;  		//사원번호 채우기	
+            document.getElementById('employeeName').value = cells[1].innerText;		//사원명 채우기
+            document.getElementById('contactNumber').value = cells[2].innerText;	//연락처 채우기
+            document.getElementById('department').value = cells[3].innerText; 		//부서 채우기
+            document.getElementById('position').value = cells[4].innerText; 		//직급채우기
             
          	// hireDate와 terminationDate는 날짜 형식으로 변환
-            document.getElementById('hireDate').value = formatDate(cells[5].innerText); 
-            document.getElementById('terminationDate').value = formatDate(cells[6].innerText); 
+            document.getElementById('hireDate').value = formatDate(cells[5].innerText.trim()); // 입사일은 날짜 형식으로 채우기
+            document.getElementById('terminationDate').value = formatDate(cells[6].innerText.trim()); // 퇴사일은 날짜 형식으로 채우기
+        }
+        
+     	// 날짜를 yyyy-mm-dd 형식으로 변환하는 함수
+        function formatDate(dateString) {
+            if (dateString === '-' || dateString === '') {
+                return ''; // 빈 문자열 반환 (입사일 또는 퇴사일이 없는 경우)
+            }
+
+            // 'yyyy-mm-dd' 형식으로 반환
+            return dateString.split('-').join('-');
         }
         
 	</script>
