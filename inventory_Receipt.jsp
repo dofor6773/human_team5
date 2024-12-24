@@ -40,7 +40,6 @@
 	            	<a href="./login.jsp">l 로그인</a>
 	                <a href="./product_management.jsp">l 제품관리</a>
 	                <a href="./employees.jsp">l 사원관리</a>
-	                <!-- <a href="./inventory_Receipt.jsp">l 입고관리</a> -->
 	            </nav>
 	            <span>
 		            <%= session.getAttribute("department") %> >
@@ -292,23 +291,7 @@
      		//alert('찾기팝업함수호출');
             // 팝업 창을 새 창으로 여는 코드 (productSearch.jsp 페이지 호출)
             window.open('./productSearch.jsp', 'productSearch', 'width=600,height=400');
-        }
-     	
-     	// "공급업체 찾기" 버튼 클릭 시 팝업창을 여는 함수
-        function openProductSearch() {
-     		//alert('찾기팝업함수호출');
-            // 팝업 창을 새 창으로 여는 코드 (productSearch.jsp 페이지 호출)
-            window.open('./productSearch.jsp', 'productSearch', 'width=600,height=400');
-        }
-     	
-     	// "창고위치 찾기" 버튼 클릭 시 팝업창을 여는 함수
-        function openProductSearch() {
-     		//alert('찾기팝업함수호출');
-            // 팝업 창을 새 창으로 여는 코드 (productSearch.jsp 페이지 호출)
-            window.open('./productSearch.jsp', 'productSearch', 'width=600,height=400');
-        }
-     	
-        
+        }        
 	</script>
     
 </body>
