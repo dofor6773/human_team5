@@ -37,7 +37,8 @@
         <header>
         	<div class="top">
 	            <nav>
-	            	<a href="./login.jsp">l 로그인</a>
+	            	<a href="./login.jsp">l 로그아웃</a>
+	    			<a href="./dashboard.jsp">l 메인</a>
 	                <a href="./product_management.jsp">l 제품관리</a>
 	                <a href="./employees.jsp">l 사원관리</a>
 	            </nav>
