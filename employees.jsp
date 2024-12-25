@@ -132,7 +132,7 @@
 		    </form>
 	    </div>
 
-        <!-- 입고된 제품 목록 -->
+        <!-- 사원 정보 목록 -->
         <table id="receivingTable" onclick="selectRow(event)">
             <thead>
                 <tr>
@@ -155,14 +155,14 @@
                         PreparedStatement pstmt = null;
                         ResultSet rs = null;
                         
-                        // 제품명 검색 파라미터 가져오기
+                        // 사원명 검색 파라미터 가져오기
                         String searchEmployeeName = request.getParameter("searchEmployeeName");
                         
                         // 기본 SQL 쿼리
                        String sql = "SELECT employee_id, employee_name, nvl(contact_number,'-') as contact_number,department,position,nvl(to_char(hire_date, 'YYYY-MM-DD'),'-') as hire_date, nvl(to_char(termination_date, 'YYYY-MM-DD'),'-') as termination_date "
                        + " FROM Employees ";
                         
-                        // 검색어가 있을 경우 SQL 쿼리 수정 (제품명 기준 검색)
+                        // 검색어가 있을 경우 SQL 쿼리 수정 (사원명 기준 검색)
                         if (searchEmployeeName != null && !searchEmployeeName.trim().isEmpty()) {
                         	sql += " WHERE employee_name  LIKE ?";
                         }
