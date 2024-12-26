@@ -126,15 +126,15 @@
         <table id="receivingTable" onclick="selectRow(event)">
             <thead>
                 <tr>
-                    <th>입고 ID</th>
-                    <th>제품 코드</th>
-                    <th>제품명</th>
-                    <th>입고 수량</th>
-                    <th>공급업체</th>
-                    <th>창고 위치</th>
-                    <th>입고일자</th>
-                    <th>등록자</th>
-                    <th>등록일자</th>
+                    <th onclick="sortTable(0)">입고 ID<span class="sort-arrow">▼</span></th>
+                    <th onclick="sortTable(1)">제품 코드<span class="sort-arrow">▼</span></th>
+                    <th onclick="sortTable(2)">제품명<span class="sort-arrow">▼</span></th>
+                    <th onclick="sortTable(3)">입고 수량<span class="sort-arrow">▼</span></th>
+                    <th onclick="sortTable(4)">공급업체<span class="sort-arrow">▼</span></th>
+                    <th onclick="sortTable(5)">창고 위치<span class="sort-arrow">▼</span></th>
+                    <th onclick="sortTable(6)">입고일자<span class="sort-arrow">▼</span></th>
+                    <th onclick="sortTable(7)">등록자<span class="sort-arrow">▼</span></th>
+                    <th onclick="sortTable(8)">등록일자<span class="sort-arrow">▼</span></th>
                 </tr>
             </thead>
             <tbody>
@@ -290,7 +290,60 @@
      		//alert('찾기팝업함수호출');
             // 팝업 창을 새 창으로 여는 코드 (productSearch.jsp 페이지 호출)
             window.open('./productSearch.jsp', 'productSearch', 'width=600,height=400');
-        }        
+        }
+     	
+	    // 목록에서 정렬 할때 사용하는 함수
+	    let sortOrder = [true, true, true, true, true, true]; // 각 열의 정렬 상태 (true: 오름차순, false: 내림차순)
+
+		function sortTable(columnIndex) {
+		    const table = document.querySelector('table tbody');
+		    const rows = Array.from(table.querySelectorAll('tr'));
+		    const isAscending = sortOrder[columnIndex];
+		
+		    const headers = document.querySelectorAll('th');
+	        headers.forEach((header, index) => {
+	            const arrow = header.querySelector('.sort-arrow');
+	            if (arrow && index !== columnIndex) {
+	                arrow.textContent = '▼';
+	            }
+	        });
+		    
+		    // 정렬 함수
+		    rows.sort((rowA, rowB) => {
+		        const cellA = rowA.querySelectorAll('td')[columnIndex].textContent.trim().toLowerCase();
+		        const cellB = rowB.querySelectorAll('td')[columnIndex].textContent.trim().toLowerCase();
+		        
+		     	// 숫자 비교 (입고 수량 열일 경우)
+		        if (columnIndex === 3) { // 입고 수량 열의 인덱스 (0부터 시작)
+		            return isAscending
+		                ? parseInt(cellA) - parseInt(cellB) // 오름차순
+		                : parseInt(cellB) - parseInt(cellA); // 내림차순
+		        } else {
+		            // 기본 문자열 비교 (기타 열들)
+		            if (isAscending) {
+		                return cellA > cellB ? 1 : (cellA < cellB ? -1 : 0);
+		            } else {
+		                return cellA < cellB ? 1 : (cellA > cellB ? -1 : 0);
+		            }
+		        }
+		    });
+		
+		    // 테이블에 정렬된 행을 다시 추가
+		    rows.forEach(row => table.appendChild(row));
+		
+		    const currentHeader = headers[columnIndex];
+	        const arrow = currentHeader.querySelector('.sort-arrow');
+	        if (arrow) {
+	            if (isAscending) {
+	                arrow.textContent = '▲';
+	            } else {
+	                arrow.textContent = '▼';
+	            }
+	        }
+
+	        // 현재 정렬 상태 반전
+	        sortOrder[columnIndex] = !isAscending;
+	    }
 	</script>
     
 </body>
