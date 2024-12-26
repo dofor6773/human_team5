@@ -70,15 +70,9 @@
 	        <select id="department" name="department" required style="width: 100%;">
 	        	<option value="">부서를 선택하세요</option>
 	            <option value="HR">인사부 (HR)</option>
-	            <option value="FI">재무부 (Finance)</option>
-	            <option value="LE">법무부 (Legal)</option>
 	            <option value="PR">생산부 (Production)</option>
 	            <option value="LO">물류부 (Logistics)</option>
-	            <option value="SA">영업부 (Sales)</option>     
-	            <option value="RD">연구부</option>         
-	            <option value="QC">품질 관리부 (Quality Control) </option>
-	            <option value="MT">마케팅부 (Marketing)</option>
-	            <option value="IT">IT부 (IT)</option>
+	            <option value="ADMIN">ADMIN</option>
 	        </select>
 	    </div>
 	    
@@ -86,23 +80,12 @@
 	        <label for="position">직급</label>
 	        <select id="position" name="position" required style="width: 100%;">
 	            <option value="">직급을 선택하세요</option>
-	            <option value="CEO">CEO (최고경영자)</option>
-	            <option value="COO">COO (최고운영책임자)</option>
-	            <option value="CFO">CFO (최고재무책임자)</option>
-	            <option value="CTO">CTO (최고기술책임자)</option>
-	            <option value="CSO">CSO (최고전략책임자)</option>
-	            <option value="Head_of_Department">부서장 (Head of Department)</option>
-	            <option value="Director">이사 (Director)</option>
-	            <option value="Associate_Director">차장 (Associate Director)</option>
+	            <option value="HD">부장</option>
 	            <option value="Manager">과장 (Manager)</option>
 	            <option value="Assistant_Manager">대리 (Assistant Manager)</option>
 	            <option value="Senior_Staff">주임 (Senior Staff)</option>
 	            <option value="Staff">사원 (Staff)</option>
-	            <option value="Researcher">연구원 (Researcher)</option>
-	            <option value="Production_Staff">생산직 (Production Staff)</option>
-	            <option value="Quality_Control">품질관리직 (Quality Control)</option>
-	            <option value="Sales_Representative">영업직 (Sales Representative)</option>
-	            <option value="Marketing">마케팅직 (Marketing)</option>
+	            <option value="ADMIN">ADMIN</option>
 	        </select>
 	    </div>
 	    
@@ -155,14 +138,14 @@
                         PreparedStatement pstmt = null;
                         ResultSet rs = null;
                         
-                        // 사원명 검색 파라미터 가져오기
+                        // 제품명 검색 파라미터 가져오기
                         String searchEmployeeName = request.getParameter("searchEmployeeName");
                         
                         // 기본 SQL 쿼리
                        String sql = "SELECT employee_id, employee_name, nvl(contact_number,'-') as contact_number,department,position,nvl(to_char(hire_date, 'YYYY-MM-DD'),'-') as hire_date, nvl(to_char(termination_date, 'YYYY-MM-DD'),'-') as termination_date "
                        + " FROM Employees ";
                         
-                        // 검색어가 있을 경우 SQL 쿼리 수정 (사원명 기준 검색)
+                        // 검색어가 있을 경우 SQL 쿼리 수정 (제품명 기준 검색)
                         if (searchEmployeeName != null && !searchEmployeeName.trim().isEmpty()) {
                         	sql += " WHERE employee_name  LIKE ?";
                         }
