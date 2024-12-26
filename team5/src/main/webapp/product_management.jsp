@@ -51,7 +51,7 @@
 <body>
 	<div class="top">
     <nav>
-	    <a href="./login.jsp">l 로그아웃</a>
+	    <a href="./logout.jsp">l 로그아웃</a>
 	    <a href="./dashboard.jsp">l 메인</a>
 	    <a href="./inventory_Receipt.jsp">l 입고관리</a>
 	    <a href="./employees.jsp">l 사원관리</a>
@@ -189,9 +189,14 @@
     <script type="text/javascript">
     	//수정완료 누르면 DB에 저장
     	function updateProduct(){
+    		const isConfirmed = confirm("수정하시겠습니까?");
+    		if(isConfirmed){
     		const form = document.getElementById('productForm');
     		form.action = "product_management_update.jsp";
     		form.submit();
+    		}else{
+    			alert('수정 취소')
+    		}
     	}
     	//취소 눌렀을때 원래 화면으로 돌아가기
     	function cancelEdit() {

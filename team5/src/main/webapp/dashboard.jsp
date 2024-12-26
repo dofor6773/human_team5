@@ -32,29 +32,32 @@
 	function checkAccess1(){
 		let department ="<%= session.getAttribute("department") %>";
 		let position = "<%= session.getAttribute("position") %>";
-		if(department !== "PR" && department !== "ADMIN" && position !== "HD"){
+		if((position === "ADMIN" || position === "HD") && (department === "ADMIN" || department === "PR")){
+			return true;
+		}else{
 			alert("권한이 없습니다.");
 			return false;
 		}
-		return true;
 	}
 	function checkAccess2(){
 		let department ="<%= session.getAttribute("department") %>";
 		let position = "<%= session.getAttribute("position") %>";
-		if(department !== "LO" && department !== "ADMIN" && position !== "HD"){
+		if((position === "ADMIN" || position === "HD") && (department === "ADMIN" || department === "LO")){
+			return true;
+		}else{
 			alert("권한이 없습니다.");
 			return false;
 		}
-		return true;
 	}
 	function checkAccess3(){
 		let department ="<%= session.getAttribute("department") %>";
 		let position = "<%= session.getAttribute("position") %>";
-		if(department !== "HR" && department !== "ADMIN" && position !== "HD"){
-			alert("권한이 없습니다.");
-			return false;
+		if((position === "ADMIN" || position === "HD") && (department === "ADMIN" || department === "HR")){
+			return true;
+		}else{
+		alert("권한이 없습니다.");
+			return false;					
 		}
-		return true;
 	}
 </script>
 </body>

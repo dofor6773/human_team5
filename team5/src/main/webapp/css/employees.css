@@ -29,13 +29,15 @@ p {
  a {
     text-decoration: none; /* 링크의 밑줄을 제거 */
     font-size: 18px; /* 글자 크기를 20px로 설정 */
+    color: black;
 }   
 
 /* buttons 클래스를 Flexbox로 설정 */
 .buttons {
     display: flex;            /* Flexbox 활성화 */
     justify-content: flex-end; /* 오른쪽 정렬 */
-    gap: 10px;                /* 버튼 간 간격을 설정 (선택사항) */
+    gap: 10px;                /* 버튼 간 간격을 설정 (선택사항) */   
+    margin-left: 915px;    
 }
 
 button {

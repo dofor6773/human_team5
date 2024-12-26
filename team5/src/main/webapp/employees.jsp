@@ -11,7 +11,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>사원관리</title>
     <link rel="stylesheet" href="./css/employees.css">
-    <script src="script.js"></script>
 </head>
 <body>
     <div class="container">
@@ -70,15 +69,9 @@
 	        <select id="department" name="department" required style="width: 100%;">
 	        	<option value="">부서를 선택하세요</option>
 	            <option value="HR">인사부 (HR)</option>
-	            <option value="FI">재무부 (Finance)</option>
-	            <option value="LE">법무부 (Legal)</option>
 	            <option value="PR">생산부 (Production)</option>
 	            <option value="LO">물류부 (Logistics)</option>
-	            <option value="SA">영업부 (Sales)</option>     
-	            <option value="RD">연구부</option>         
-	            <option value="QC">품질 관리부 (Quality Control) </option>
-	            <option value="MT">마케팅부 (Marketing)</option>
-	            <option value="IT">IT부 (IT)</option>
+	            <option value="ADMIN">ADMIN</option>
 	        </select>
 	    </div>
 	    
@@ -86,23 +79,12 @@
 	        <label for="position">직급</label>
 	        <select id="position" name="position" required style="width: 100%;">
 	            <option value="">직급을 선택하세요</option>
-	            <option value="CEO">CEO (최고경영자)</option>
-	            <option value="COO">COO (최고운영책임자)</option>
-	            <option value="CFO">CFO (최고재무책임자)</option>
-	            <option value="CTO">CTO (최고기술책임자)</option>
-	            <option value="CSO">CSO (최고전략책임자)</option>
-	            <option value="Head_of_Department">부서장 (Head of Department)</option>
-	            <option value="Director">이사 (Director)</option>
-	            <option value="Associate_Director">차장 (Associate Director)</option>
+	            <option value="HD">부장</option>
 	            <option value="Manager">과장 (Manager)</option>
 	            <option value="Assistant_Manager">대리 (Assistant Manager)</option>
 	            <option value="Senior_Staff">주임 (Senior Staff)</option>
 	            <option value="Staff">사원 (Staff)</option>
-	            <option value="Researcher">연구원 (Researcher)</option>
-	            <option value="Production_Staff">생산직 (Production Staff)</option>
-	            <option value="Quality_Control">품질관리직 (Quality Control)</option>
-	            <option value="Sales_Representative">영업직 (Sales Representative)</option>
-	            <option value="Marketing">마케팅직 (Marketing)</option>
+	            <option value="ADMIN">ADMIN</option>
 	        </select>
 	    </div>
 	    
@@ -132,7 +114,7 @@
 		    </form>
 	    </div>
 
-        <!-- 입고된 제품 목록 -->
+        <!-- 사원 정보 목록 -->
         <table id="receivingTable" onclick="selectRow(event)">
             <thead>
                 <tr>
@@ -258,16 +240,18 @@
 	            return; // 비밀번호가 일치하지 않으면 함수 종료
 	        }
 	        
-	        document.getElementById('actionType').value = 'register';
-	        document.getElementById('employeesForm').action = './employees_action.jsp';
-	        document.getElementById('employeesForm').submit();
+		        document.getElementById('actionType').value = 'register';
+		        document.getElementById('employeesForm').action = './employees_action.jsp';
+		        document.getElementById('employeesForm').submit();
 	    }
 	    
 	 	// 수정 버튼 클릭 시
 		function updateEmployee() {
-		    document.getElementById('actionType').value = 'update';
-		    document.getElementById('employeesForm').action = './employees_action.jsp';
-		    document.getElementById('employeesForm').submit();
+			if (confirm('정말 수정하시겠습니까?')) {
+			    document.getElementById('actionType').value = 'update';
+			    document.getElementById('employeesForm').action = './employees_action.jsp';
+			    document.getElementById('employeesForm').submit();
+			}
 		}
 
 	    // 삭제 버튼 클릭 시
