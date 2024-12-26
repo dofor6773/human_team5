@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>제약 입고관리</title>
     <link rel="stylesheet" href="./css/inventory_receipt.css">
-    <script src="script.js"></script>
+<!--     <script src="script.js"></script> -->
     <script>
         // 페이지 로드 시 입고일자 필드에 오늘 날짜를 기본값으로 설정
         window.onload = function() {
@@ -159,10 +159,10 @@
                         
                         // 검색어가 있을 경우 SQL 쿼리 수정 (제품명 기준 검색)
                         if (searchProductName != null && !searchProductName.trim().isEmpty()) {
-                            sql += " WHERE a.product_code IN (SELECT d.product_code FROM Product WHERE d.product_name LIKE ?)";
+                            sql += " WHERE a.product_code IN (SELECT d.product_code FROM Product d WHERE d.product_name LIKE ?) ";
                         }
                         
-                        sql += "ORDER BY a.product_code";
+                        sql += "ORDER BY a.product_code ";
                         
                         System.out.println("sql" + sql);
 
