@@ -241,16 +241,18 @@
 	            return; // 비밀번호가 일치하지 않으면 함수 종료
 	        }
 	        
-	        document.getElementById('actionType').value = 'register';
-	        document.getElementById('employeesForm').action = './employees_action.jsp';
-	        document.getElementById('employeesForm').submit();
+		        document.getElementById('actionType').value = 'register';
+		        document.getElementById('employeesForm').action = './employees_action.jsp';
+		        document.getElementById('employeesForm').submit();
 	    }
 	    
 	 	// 수정 버튼 클릭 시
 		function updateEmployee() {
-		    document.getElementById('actionType').value = 'update';
-		    document.getElementById('employeesForm').action = './employees_action.jsp';
-		    document.getElementById('employeesForm').submit();
+			if (confirm('정말 수정하시겠습니까?')) {
+			    document.getElementById('actionType').value = 'update';
+			    document.getElementById('employeesForm').action = './employees_action.jsp';
+			    document.getElementById('employeesForm').submit();
+			}
 		}
 
 	    // 삭제 버튼 클릭 시
