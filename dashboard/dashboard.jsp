@@ -13,7 +13,7 @@
 <body>
 	<div class="container">
 		<div class="top">
-		<a href="./login.jsp">l 로그아웃</a>
+		<a href="./logout.jsp">l 로그아웃</a>
 		<span>
 			<%= session.getAttribute("department") %> >
 			<%= session.getAttribute("position") %> >
