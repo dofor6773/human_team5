@@ -36,7 +36,8 @@ p {
 .buttons {
     display: flex;            /* Flexbox 활성화 */
     justify-content: flex-end; /* 오른쪽 정렬 */
-    gap: 10px;                /* 버튼 간 간격을 설정 (선택사항) */
+    gap: 10px;                /* 버튼 간 간격을 설정 (선택사항) */   
+    margin-left: 915px;    
 }
 
 button {
