@@ -29,6 +29,7 @@ p {
  a {
     text-decoration: none; /* 링크의 밑줄을 제거 */
     font-size: 18px; /* 글자 크기를 20px로 설정 */
+    color: black;
 }   
 
 /* buttons 클래스를 Flexbox로 설정 */
