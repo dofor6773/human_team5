@@ -1,0 +1,55 @@
+@charset "UTF-8";
+
+body{
+	font-family: Arial, sans-serif;
+    background-image: url('../images/humunlogo.png');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center center;
+    background-color: #f7f7f7;
+}
+.top{
+	display: flex;
+	justify-content: space-between;
+	margin: 0 auto 20px auto;
+	max-width: 1200px;
+	max-height: 53px;
+	font-weight: bold;
+    font-size: 18px;
+}
+.top a{
+	text-decoration: none;
+	color: black;
+}
+.navber{
+	display: flex;
+	align-content: center;
+	justify-content: center;
+	flex-wrap: wrap;
+	border: 1px solid #dcdcdc;
+	border-radius: 8px;
+	padding: 15px 20px;
+	width: 100%;
+	height: auto;
+	height: 100vh;
+    box-sizing: border-box;
+}
+.nav-left a{
+	background-color: rgb(98, 212, 145);
+	color: #2a6b2b;
+	padding: 30px 30px;
+	margin: 10px;
+	text-decoration: none;
+	text-align: center;
+	border-radius: 5px;
+	font-size: 18px;
+    font-weight: bold;
+}
+.nav-left{
+	display: flex;
+	flex-wrap: wrap;
+    justify-content: center;
+    position: absolute;
+    top: 33%;
+    transform: translateY(-50%);
+}
