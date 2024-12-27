@@ -52,7 +52,7 @@
 %>
 <script>
 	alert('수정에 실패하였습니다. 에러 사유: <%= errMsg %>');
-	location.href = './product_managemnet.jsp;
+	location.href = './product_management.jsp;
 </script>
 <%
 	}
