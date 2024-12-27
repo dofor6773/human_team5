@@ -101,7 +101,7 @@
 	    <!-- hidden field to specify the action (등록, 수정, 삭제) -->
 	    <input type="hidden" id="actionType" name="actionType">
 	    <input type="hidden" id="receiptId" name="receiptId">
-	    <input type="hidden" id="registeredBy" name="registeredBy" value="<%= session.getAttribute("employeeId") %>">  <!-- 세션 정보를 등록자 필드에 삽입 -->>
+	    <input type="hidden" id="registeredBy" name="registeredBy" value="<%= session.getAttribute("employeeId") %>">  <!-- 세션 정보를 등록자 필드에 삽입 -->
 	
 	    <div class="buttons">
 	        <button onclick="registerProduct()">등록</button>
@@ -159,10 +159,10 @@
                         
                         // 검색어가 있을 경우 SQL 쿼리 수정 (제품명 기준 검색)
                         if (searchProductName != null && !searchProductName.trim().isEmpty()) {
-                            sql += " WHERE a.product_code IN (SELECT d.product_code FROM Product d WHERE d.product_name LIKE ?) ";
+                            sql += " WHERE a.product_code IN (SELECT d.product_code FROM Product d WHERE d.product_name LIKE ?)";
                         }
                         
-                        sql += "ORDER BY a.product_code ";
+                        sql += "ORDER BY a.product_code";
                         
                         System.out.println("sql" + sql);
 
@@ -226,22 +226,7 @@
 	        // 페이지를 새로고침
 	        location.reload(); // 페이지를 완전히 새로고침
 	    }
-	    
-	    // 조회 버튼 클릭 시
-	    function searchProduct() {
-	        var searchProductName = document.getElementById('searchProductName').value;
-	        
-	        // AJAX 요청 보내기
-	        var xhr = new XMLHttpRequest();
-	        xhr.open("GET", "inventory_Receipt_action.jsp?actionTypeSearch=search&searchProductName=" + searchProductName, true);
-	        xhr.onreadystatechange = function() {
-	            if (xhr.readyState == 4 && xhr.status == 200) {
-	                // 테이블에 결과 반영
-	                document.getElementById('receivingTable').innerHTML = xhr.responseText;
-	            }
-	        };
-	        xhr.send();
-	    }
+	   
 	    
 	    // 등록 버튼 클릭 시
 	    function registerProduct() {
