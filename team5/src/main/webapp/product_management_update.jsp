@@ -7,6 +7,7 @@
 
     // 수정값
     String productCode = request.getParameter("productCode");
+    
     String productName = request.getParameter("productName");
     String currentCategory = request.getParameter("productType");
     String packagingUnit = request.getParameter("packagingUnit");
@@ -15,12 +16,14 @@
 
     // DB 연결
     Connection conn = DBManager.getDBConnection();
-
+    int rows = 0;
+	boolean isSuccess = false;
+	String errMsg = "";
     // UPDATE
     String updateSql = "UPDATE product SET PRODUCT_NAME = ?, CURRENT_CATEGORY = ?, PACKAGING_UNIT = ?, EFFICACY_GROUP = ?, PRODUCTION_TYPE = ? WHERE PRODUCT_CODE = ?";
 
     try {
-        PreparedStatement pstmt = pstmt = conn.prepareStatement(updateSql);
+    	PreparedStatement pstmt = conn.prepareStatement(updateSql);
         pstmt.setString(1, productName);
         pstmt.setString(2, currentCategory);
         pstmt.setString(3, packagingUnit);
@@ -28,18 +31,29 @@
         pstmt.setString(5, productionType);
         pstmt.setString(6, productCode);
 
-        int rowsAffected = pstmt.executeUpdate();
-        
-        if (rowsAffected > 0) {
-            //성공시 바로 html파일로 넘어감
-            response.sendRedirect("product_management.jsp");
-        } else {
-            out.println("제품 등록에 실패했습니다.");
-        }
+		rows = pstmt.executeUpdate();
+        DBManager.dbClose(conn, pstmt, null);
+        isSuccess = true;
         
     } catch (Exception e) {
         e.printStackTrace();
-    } finally {
-        DBManager.dbClose(conn, pstmt, null);
+        errMsg = e.getMessage();
     }
+%>
+<%
+	if (isSuccess) {
+%>
+<script>
+	alert('수정되었습니다.');
+	location.href = './product_management.jsp';
+</script>
+<%
+	} else { 
+%>
+<script>
+	alert('수정에 실패하였습니다. 에러 사유: <%= errMsg %>');
+	location.href = './product_managemnet.jsp;
+</script>
+<%
+	}
 %>
