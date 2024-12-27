@@ -226,22 +226,7 @@
 	        // 페이지를 새로고침
 	        location.reload(); // 페이지를 완전히 새로고침
 	    }
-	    
-	    // 조회 버튼 클릭 시
-	    function searchProduct() {
-	        var searchProductName = document.getElementById('searchProductName').value;
-	        
-	        // AJAX 요청 보내기
-	        var xhr = new XMLHttpRequest();
-	        xhr.open("GET", "inventory_Receipt_action.jsp?actionTypeSearch=search&searchProductName=" + searchProductName, true);
-	        xhr.onreadystatechange = function() {
-	            if (xhr.readyState == 4 && xhr.status == 200) {
-	                // 테이블에 결과 반영
-	                document.getElementById('receivingTable').innerHTML = xhr.responseText;
-	            }
-	        };
-	        xhr.send();
-	    }
+	   
 	    
 	    // 등록 버튼 클릭 시
 	    function registerProduct() {
