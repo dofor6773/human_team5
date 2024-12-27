@@ -56,6 +56,7 @@
         }
         //System.out.println("productCode: " + productCode);
         //만들어진 productcode 확인
+	//날짜가 YYmm이어서 달이 바뀌어야 숫자가 1로 초기화됨
     } catch (Exception e) {
         e.printStackTrace();
         out.println("오류가 발생했습니다: " + e.getMessage());
