@@ -1,0 +1,199 @@
+/* style.css */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.container {
+    width: 95%;
+    margin: 1px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    min-height: 100vh; /* 화면의 최소 높이 */
+}
+
+
+h1 {
+    text-align: center;
+}
+
+p {
+        margin: 0; /* 기본 여백 제거 */
+    }
+
+
+ a {
+    text-decoration: none; /* 링크의 밑줄을 제거 */
+    font-size: 18px; /* 글자 크기를 20px로 설정 */
+    color: black;
+}   
+
+/* buttons 클래스를 Flexbox로 설정 */
+.buttons {
+    display: flex;            /* Flexbox 활성화 */
+    justify-content: flex-end; /* 오른쪽 정렬 */
+    gap: 10px;                /* 버튼 간 간격을 설정 (선택사항) */    
+    margin-left: 915px;    
+}
+
+button {
+    padding: 5px 10px;
+    margin: 1px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+form {
+    margin-bottom: 10px;
+}
+
+label {
+		font-size: 16px; /* 글자 크기 */
+       	font-weight: bold; /* 글자 굵기 */
+      	padding: 1px; /* 라벨의 여백 */
+    	--margin-bottom: 5px;
+    	display: inline-block; 
+    	width: 110px; 
+    	text-align: right;
+}
+
+input[type="text"], input[type="number"], input[type="date"], select {
+	width: 300px;
+    --width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box; /* padding을 포함한 너비 계산 */
+}
+
+
+.search {
+    margin-bottom: 20px;
+    text-align: lert;
+}
+
+/* 테이블 스타일 */
+table {
+    width: 100%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    background: white;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+    font-size: 14px;
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
+
+th {
+    background-color: #2a6b2b;
+    color: white;
+    font-weight: bold;
+}
+
+
+/* 테이블 행 hover 스타일 */
+tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* 스크롤 */
+tbody {
+    display: block;
+    overflow-y: auto;
+    max-height: 320px;
+}
+
+/* 테이블 헤더 고정 */
+thead, tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+tbody::-webkit-scrollbar {
+    width: 0;  /* 세로 스크롤바를 숨김 */
+    height: 0; /* 가로 스크롤바를 숨김 */
+}
+thead {
+    background: #2a6b2b;
+    color: white;
+}
+
+.top{
+	display: flex;
+	justify-content: space-between;
+}
+
+/* 입고 관리폼 전체 스타일 */
+#productForm {    
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1px; /* 항목 간 간격을 10px로 줄임 */
+    margin: 20px 0;
+}
+
+
+.input-group {
+    display: flex;
+    justify-content: space-between; /* 좌우 간격을 적절하게 배분 */
+    align-items: center;         /* 수직 중앙 정렬 */
+}
+
+
+/* 사원관리 폼 전체 스타일 */
+#employessForm {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1px; /* 항목 간 간격을 10px로 줄임 */
+    margin: 20px 0;
+}
+
+/* 각 입력 그룹 */
+.input-group {
+    width: calc(33% - 5px); /* 두 개씩 배치, 간격을 조금 더 좁힘 */
+    margin-bottom: 10px; /* 각 항목 간 간격을 10px로 줄임 */
+}
+
+/* 라벨 스타일 */
+.input-group label {
+    display: block;
+    margin-bottom: 10px; /* 라벨과 입력란 간 여백 줄임 */
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* 입력란 및 셀렉트 박스 스타일 */
+.input-group input,
+.input-group select {
+    width: 100%; /* 입력란과 셀렉트 박스의 가로 너비 100% */
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* 모바일 화면에서 1개씩 세로로 배치되도록 */
+@media (max-width: 768px) {
+    .input-group {
+        width: 100%; /* 모바일 화면에서는 전체 너비로 */
+    }
+}
