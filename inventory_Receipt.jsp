@@ -101,7 +101,7 @@
 	    <!-- hidden field to specify the action (등록, 수정, 삭제) -->
 	    <input type="hidden" id="actionType" name="actionType">
 	    <input type="hidden" id="receiptId" name="receiptId">
-	    <input type="hidden" id="registeredBy" name="registeredBy" value="<%= session.getAttribute("employeeId") %>">  <!-- 세션 정보를 등록자 필드에 삽입 -->>
+	    <input type="hidden" id="registeredBy" name="registeredBy" value="<%= session.getAttribute("employeeId") %>">  <!-- 세션 정보를 등록자 필드에 삽입 -->
 	
 	    <div class="buttons">
 	        <button onclick="registerProduct()">등록</button>
