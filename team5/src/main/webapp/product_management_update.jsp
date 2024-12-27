@@ -15,13 +15,12 @@
 
     // DB 연결
     Connection conn = DBManager.getDBConnection();
-    PreparedStatement pstmt = null;
 
     // UPDATE
     String updateSql = "UPDATE product SET PRODUCT_NAME = ?, CURRENT_CATEGORY = ?, PACKAGING_UNIT = ?, EFFICACY_GROUP = ?, PRODUCTION_TYPE = ? WHERE PRODUCT_CODE = ?";
 
     try {
-        pstmt = conn.prepareStatement(updateSql);
+        PreparedStatement pstmt = pstmt = conn.prepareStatement(updateSql);
         pstmt.setString(1, productName);
         pstmt.setString(2, currentCategory);
         pstmt.setString(3, packagingUnit);
