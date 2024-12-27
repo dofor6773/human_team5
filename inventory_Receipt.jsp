@@ -159,10 +159,10 @@
                         
                         // 검색어가 있을 경우 SQL 쿼리 수정 (제품명 기준 검색)
                         if (searchProductName != null && !searchProductName.trim().isEmpty()) {
-                            sql += " WHERE a.product_code IN (SELECT d.product_code FROM Product d WHERE d.product_name LIKE ?) ";
+                            sql += " WHERE a.product_code IN (SELECT d.product_code FROM Product d WHERE d.product_name LIKE ?)";
                         }
                         
-                        sql += "ORDER BY a.product_code ";
+                        sql += "ORDER BY a.product_code";
                         
                         System.out.println("sql" + sql);
 
