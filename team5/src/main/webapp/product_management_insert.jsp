@@ -12,7 +12,7 @@
     String efficacyGroup = request.getParameter("efficacyGroup");
     String productionType = request.getParameter("productionType");
     String registeredBy = request.getParameter("registeredBy");
-
+// 필수 값 입력 안했을 시
     if (productName == null || productName.trim().isEmpty()){
             out.println("<script>alert('모든 필수 항목을 입력해주세요!'); history.back();</script>");
             return;  // 폼 제출을 중단
@@ -26,11 +26,13 @@
     String prefix = "AA";
     String suffix = "A";
 
-    // 제품 코드 번호를 생성하기 위한 SQL 쿼리
-	String selectSql = "SELECT MAX(SUBSTR(PRODUCT_CODE, 8, 3)) FROM product WHERE PRODUCT_CODE LIKE ?";    Connection conn = DBManager.getDBConnection();
+    // DB에 연결해서 등록된 물품을 확인한다음 그 다음 물품을 다음 숫자에 저장할것임
+    Connection conn = DBManager.getDBConnection();
     PreparedStatement pstmt = null;
     ResultSet rs = null;
     String productCode = null;
+    // 제품 코드 번호를 생성하기 위한 SQL 쿼리
+	String selectSql = "SELECT MAX(SUBSTR(PRODUCT_CODE, 8, 3)) FROM product WHERE PRODUCT_CODE LIKE ?";
 
     try {
         // 같은 날짜의 제품 코드에서 순차 번호를 찾기
